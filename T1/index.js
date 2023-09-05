@@ -13,8 +13,9 @@ const scene = new T.Scene();
 initDefaultBasicLight(scene); // Create a basic light to illuminate the scene
 const camera = createCamera(scene, renderer);
 const plane = createPlane(scene);
-const bricks = createBricks(scene);
+const bricks = createBricks(plane);
 
+console.log(bricks);
 render();
 function render() {
   requestAnimationFrame(render);
