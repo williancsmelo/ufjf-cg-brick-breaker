@@ -6,20 +6,15 @@ import {
 } from "../libs/util/util.js";
 import { createCamera } from "./create-camera.js";
 import { createPlane } from "./create-plane.js";
-
-const scene = new T.Scene();
-initDefaultBasicLight(scene); // Create a basic light to illuminate the scene
-const camera = createCamera(scene);
-const plane = createPlane(scene);
+import { createBricks } from "./create-bricks.js";
 
 const renderer = initRenderer();
-window.addEventListener(
-  "resize",
-  function () {
-    onWindowResize(camera, renderer, window.innerHeight);
-  },
-  false
-);
+const scene = new T.Scene();
+initDefaultBasicLight(scene); // Create a basic light to illuminate the scene
+const camera = createCamera(scene, renderer);
+const plane = createPlane(scene);
+const bricks = createBricks(scene);
+
 render();
 function render() {
   requestAnimationFrame(render);

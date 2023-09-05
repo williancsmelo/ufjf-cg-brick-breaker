@@ -6,5 +6,12 @@ export const createPlane = (scene) => {
   const plane = new T.Mesh(planeGeometry, planeMaterial);
   plane.position.z = -1;
   scene.add(plane);
+
+  window.addEventListener("resize", function () {
+    const newBaseSize = this.window.innerHeight;
+    plane.scale.x = newBaseSize / baseSize;
+    plane.scale.y = newBaseSize / baseSize;
+  });
+
   return plane;
 };
