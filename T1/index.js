@@ -15,8 +15,10 @@ const camera = createCamera(scene, renderer);
 const plane = createPlane(scene);
 const bricks = createBricks(plane);
 
-console.log(bricks);
+const hitter = createBricks(plane);
+
 render();
+
 function render() {
   requestAnimationFrame(render);
   renderer.render(scene, camera); // Render scene
