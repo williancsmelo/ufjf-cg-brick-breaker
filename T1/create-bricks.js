@@ -13,8 +13,8 @@ export const createBricks = (plane) => {
       const x = borderLeft + brickWidth / 2 + column * brickWidth;
       const y = borderTop - topOffset - row * Brick.height - Brick.height / 2;
       const brick = new Brick(plane, row + 1, brickWidth);
-      brick.box.position.x = x;
-      brick.box.position.y = y;
+      brick.position.x = x;
+      brick.position.y = y;
       return brick;
     });
   });

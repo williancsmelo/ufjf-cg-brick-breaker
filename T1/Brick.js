@@ -1,4 +1,5 @@
 import * as T from "three";
+import { setDefaultMaterial } from "../libs/util/util.js";
 
 const getColor = (row) =>
   ({
@@ -10,23 +11,19 @@ const getColor = (row) =>
     6: "palegreen",
   }[row] || "white");
 
-export class Brick {
-  box = null;
+export class Brick extends T.Mesh {
   broken = false;
   static height = 8;
   constructor(plane, row, width) {
     const boxGeometry = new T.BoxGeometry(width, Brick.height, 1);
-    const edges = new T.EdgesGeometry(boxGeometry);
-    const line = new T.LineSegments(
-      edges,
-      new T.LineBasicMaterial({ color: "black", linewidth: 2 })
+    super(boxGeometry, setDefaultMaterial(getColor(row)));
+    this.position.z = 0;
+    this.add(
+      new T.LineSegments(
+        new T.EdgesGeometry(boxGeometry),
+        new T.LineBasicMaterial({ color: "black", linewidth: 2 })
+      )
     );
-    const boxMaterial = new T.MeshBasicMaterial({
-      color: getColor(row),
-    });
-    this.box = new T.Mesh(boxGeometry, boxMaterial);
-    this.box.position.z = 0;
-    this.box.add(line);
-    plane.add(this.box);
+    plane.add(this);
   }
 }
