@@ -2,6 +2,7 @@ import * as T from "three";
 
 export default class Hitter {
   static platform;
+  plane
   width;
   stop = false;
 
@@ -27,22 +28,15 @@ export default class Hitter {
       piece.bb = this._createCollisionBox(object, "yellow");
     });
 
+    this.platform = this._createPiece(width, height);
+    this.platform.position.set(0, -300, 0);
+    this.plane.add(this.platform);
+
     // Adiciona e posiciona na cena
     this.pieces.forEach((piece, index) => {
-      if(index === 0) {
-        plane.add(piece.object)
-        piece.object.position.y = -300;
-      }
-      else {
-        this.pieces[0].object.add(piece.object);
+        this.platform.add(piece.object);
         piece.object.position.x = initialPos[index];
-      }
     })
-
-    this.platform = this.pieces[0].object;
-
-    // Posicione a plataforma
-    this.platform.position.set(0, -300, 0);
   }
 
   setPosition(newPosition) {
