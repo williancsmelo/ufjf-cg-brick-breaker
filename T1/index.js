@@ -25,7 +25,7 @@ render();
 /* GAME CONTROLS */
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === ' ') gamePause = pauseGame(event, gamePause)
+  if (event.key === ' ') gamePause = pauseGame(gamePause)
   else if(event.key === 'Enter') toggleFullscreen();
 });
 
