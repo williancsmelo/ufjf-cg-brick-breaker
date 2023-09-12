@@ -7,6 +7,7 @@ import {
 import { createCamera } from "./create-camera.js";
 import { createPlane } from "./create-plane.js";
 import { createBricks } from "./create-bricks.js";
+import { createHitter } from "./create-hitter.js";
 
 const renderer = initRenderer();
 const scene = new T.Scene();
@@ -15,7 +16,7 @@ const camera = createCamera(scene, renderer);
 const plane = createPlane(scene);
 const bricks = createBricks(plane);
 
-const hitter = createBricks(plane);
+const hitter = createHitter(plane);
 
 render();
 
