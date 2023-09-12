@@ -12,7 +12,7 @@ export class Ball {
   object;
   
   constructor(plane, width = 100, height = 5, color = "red") {
-    const geometry = new T.SphereGeometry( 15, 32, 16 );
+    const geometry = new T.SphereGeometry( 6, 32, 16 );
     const material = new T.MeshBasicMaterial( { color: 0xffff00 } );
     this.object = new T.Mesh(geometry, material);
 		this.bb = new T.Box3().setFromObject(this.object);
