@@ -7,8 +7,8 @@ export default class Hitter {
   stop = false;
 
   pieces = [
-    { object: null, bb: null, normal: new T.Vector3(Math.cos(Math.PI / 3), Math.sin(Math.PI / 3), 0) },
-    { object: null, bb: null, normal: new T.Vector3(Math.cos(Math.PI / 3), Math.sin(Math.PI / 3), 0) },
+    { object: null, bb: null, normal: new T.Vector3(0, 1, 0) },
+    { object: null, bb: null, normal: new T.Vector3(0, 1, 0) },
     { object: null, bb: null, normal: new T.Vector3(Math.cos(Math.PI / 3), Math.sin(Math.PI / 3), 0) },
     { object: null, bb: null, normal: new T.Vector3(Math.cos(Math.PI / 3), Math.sin(Math.PI / 3), 0) },
     { object: null, bb: null, normal: new T.Vector3(Math.cos(Math.PI / 3), Math.sin(Math.PI / 3), 0) }
@@ -58,14 +58,27 @@ export default class Hitter {
       //console.log(this.stop);
 
       if(this.stop == false) {
-        ball.movementVector = ball.movementVector.multiplyScalar(2 * dot).negate();
-        console.log(ball.movementVector);
+        ball.movementVector.normalize();
+        this.pieces[1].normal.normalize();
+
+        let angle = ball.movementVector.angleTo(this.pieces[1].normal);
+        var angleInDegree = (angle * (180 / Math.PI) - 90);
+
+        ball.movementVector = this.angleToVector(angleInDegree);
         this.stop = true;
       }
 
       //console.log()
     }
   }
+
+  angleToVector(angleInDegree) {
+    var anguloEmRadianos = angleInDegree * (Math.PI / 180);
+    var x = Math.cos(anguloEmRadianos);
+    var y = 1;
+    var z = 0;
+    return new T.Vector3(x, y, z);
+}
 
   _createCollisionBox(object, color = "red") {
     const bbPlat = new T.Box3().setFromObject(object);
