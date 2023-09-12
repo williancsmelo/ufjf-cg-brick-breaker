@@ -1,3 +1,4 @@
+import * as T from "three";
 import Hitter from "./Hitter.js"
 import { hitter } from "./config/constants.js"
 
