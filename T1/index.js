@@ -8,7 +8,7 @@ import { createCamera } from "./create-camera.js";
 import { createPlane } from "./create-plane.js";
 import { createBricks } from "./create-bricks.js";
 import { createHitter } from "./create-hitter.js";
-import {pauseGame} from "./create-controls.js"
+import {pauseGame, toggleFullscreen} from "./create-controls.js"
 
 let gamePause = false;
 const renderer = initRenderer();
@@ -22,9 +22,13 @@ const hitter = createHitter(plane);
 
 render();
 
-/**/
+/* GAME CONTROLS */
 
-document.addEventListener('keydown', (event) => gamePause = pauseGame(event, gamePause));
+document.addEventListener('keydown', (event) => {
+  if (event.key === ' ') gamePause = pauseGame(event, gamePause)
+  else if(event.key === 'Enter') toggleFullscreen();
+});
+
 
 function render() {
   if(!gamePause){
