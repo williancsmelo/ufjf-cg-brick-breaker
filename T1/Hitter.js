@@ -15,19 +15,21 @@ export default class Hitter {
   ];
 
   constructor(plane, width = 100, height = 5, color = 0x00ff00, positionY = -350) {
-    const platformGeometry = new T.BoxGeometry(width, height, 1);
-    const platformMaterial = new T.MeshBasicMaterial({ color });
-    const platform = new T.Mesh(platformGeometry, platformMaterial);
-    plane.add(platform);
+    const eachPieceWidth = width / 5;
+    const initialPos = [0, eachPieceWidth, -eachPieceWidth, 2 * eachPieceWidth, -2 * eachPieceWidth];
+    this.plane = plane;
+    this.width = width;
+
 
     this.pieces.forEach((piece, index) => {
       let object = this._createPiece(eachPieceWidth, height, piece.color);
+
       piece.object = object;
       piece.bb = this._createCollisionBox(object, "yellow");
     });
 
     this.platform = this._createPiece(width, height);
-    this.platform.position.set(0, -300, 0);
+    this.platform.position.set(0, positionY, 0);
     this.plane.add(this.platform);
 
     // Adiciona e posiciona na cena
@@ -35,8 +37,6 @@ export default class Hitter {
         this.platform.add(piece.object);
         piece.object.position.x = initialPos[index];
     })
-    // Posicione a plataforma
-    platform.position.set(0, positionY, 0);
   }
 
   setPosition(newPosition) {
@@ -104,4 +104,3 @@ function createBBHelper(bb, color, piece) {
   
   return helper;
 }
-
