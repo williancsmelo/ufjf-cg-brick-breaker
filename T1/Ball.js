@@ -5,23 +5,17 @@ import { setDefaultMaterial } from "../libs/util/util.js";
 export class Ball {
 	static height = 8;
 	broken = false;
-	baseSpeed = 0.3;
+	baseSpeed = 2;
 	bb;
-	
-	movementVector;
+	movementVector = new T.Vector3(1, -1, 0).normalize()
   object;
-  
   constructor(plane, width = 100, height = 5, color = "red") {
     const geometry = new T.SphereGeometry( 6, 32, 16 );
     const material = new T.MeshBasicMaterial( { color: 0xffff00 } );
     this.object = new T.Mesh(geometry, material);
 		this.bb = new T.Box3().setFromObject(this.object);
-
     this.object.position.y = -200;
-		
-		this.movementVector = new T.Vector3(1, -1, 0);
     this.object = this.object;
-    
     plane.add(this.object);
   }
 

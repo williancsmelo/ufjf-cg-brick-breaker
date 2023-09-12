@@ -7,11 +7,11 @@ export default class Hitter {
   stop = false;
 
   pieces = [
-    { object: null, bb: null, normal: new T.Vector3(0, 1, 0) },
-    { object: null, bb: null, normal: new T.Vector3(0, 1, 0) },
-    { object: null, bb: null, normal: new T.Vector3(Math.cos(Math.PI / 3), Math.sin(Math.PI / 3), 0) },
-    { object: null, bb: null, normal: new T.Vector3(Math.cos(Math.PI / 3), Math.sin(Math.PI / 3), 0) },
-    { object: null, bb: null, normal: new T.Vector3(Math.cos(Math.PI / 3), Math.sin(Math.PI / 3), 0) }
+    { object: null, bb: null, normal: new T.Vector3(0, 1, 0) }, // --_--
+    { object: null, bb: null, normal: new T.Vector3(Math.cos(Math.PI / 3), Math.sin(Math.PI / 3), 0) }, // ---_-
+    { object: null, bb: null, normal: new T.Vector3(Math.cos(Math.PI / 3), Math.sin(Math.PI / 3), 0) }, // -_---
+    { object: null, bb: null, normal: new T.Vector3(Math.cos(Math.PI / 6), Math.sin(Math.PI / 6), 0) }, // ----_
+    { object: null, bb: null, normal: new T.Vector3(Math.cos(Math.PI / 6), Math.sin(Math.PI / 6), 0) } // _----
   ];
 
   constructor(plane, width = 100, height = 5, color = 0x00ff00, positionY = -350) {
@@ -50,33 +50,24 @@ export default class Hitter {
   }
 
   checkCollisions(ball) {
-    let collision = this.pieces[1].bb.intersectsBox(ball.bb);
-    if(collision) {
-      console.log("colidiu");
-      //const currentAngle = vectorA.angleTo(vectorB);
-      const dot = ball.movementVector.dot(this.pieces[1].normal);
-      //console.log(this.stop);
-
-      if(this.stop == false) {
-        ball.movementVector.normalize();
-        this.pieces[1].normal.normalize();
-
-        let angle = ball.movementVector.angleTo(this.pieces[1].normal);
-        var angleInDegree = (angle * (180 / Math.PI) - 90);
-
-        ball.movementVector = this.angleToVector(angleInDegree);
-        this.stop = true;
-      }
-
-      //console.log()
-    }
+    const collision = this.pieces.find(piece => {
+      return piece.bb.intersectsBox(ball.bb)
+    })
+    if(!collision) return
+    const angle = ball.movementVector.angleTo(collision.normal);
+    let angleInDegree = angle * (180 / Math.PI)
+    if(ball.movementVector.x > 0) angleInDegree-= 90
+    ball.movementVector = this.angleToVector(angleInDegree);
+    if(ball.movementVector.y < 0) ball.movementVector.y = 0.08
+    ball.movementVector.normalize()
   }
 
   angleToVector(angleInDegree) {
     var anguloEmRadianos = angleInDegree * (Math.PI / 180);
     var x = Math.cos(anguloEmRadianos);
-    var y = 1;
+    var y = Math.sin(anguloEmRadianos);
     var z = 0;
+
     return new T.Vector3(x, y, z);
 }
 

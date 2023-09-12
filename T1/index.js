@@ -19,6 +19,7 @@ const ball = createBall(plane);
 
 const state = {
   fullScreen: isFullscreen(),
+  pause: false
 };
 createControls(state);
 
