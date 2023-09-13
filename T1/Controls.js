@@ -1,10 +1,10 @@
 export class Controls {
     isPaused = false;
     isFullscreen = false;
+    isStarted = false;
 
-    constructor(isFullscreen, isPaused) {
+    constructor(isFullscreen) {
         this.isFullscreen = isFullscreen;
-        this.isPaused = isPaused;
         this.events();
     }
 
@@ -12,8 +12,12 @@ export class Controls {
         this.isPaused = isPaused;
     }
 
-    setisFullscreen(isFullscreen) {
+    setIsFullscreen(isFullscreen) {
         this.isFullscreen = isFullscreen;
+    }
+
+    setIsStarted(isStarted) {
+        this.isStarted = isStarted;
     }
 
     events() {
@@ -31,10 +35,24 @@ export class Controls {
                     document.querySelector("canvas").requestFullscreen();
                 else document.exitFullscreen();
             }
+
+            if (key === "Enter") {
+                this.isFullscreen = !this.isFullscreen;
+                if (this.isFullscreen)
+                    document.querySelector("canvas").requestFullscreen();
+                else document.exitFullscreen();
+            }
         };
+
+        const handleClick = () => {
+            if (!this.isStarted) this.isStarted = true;
+            console.log("Iniciou o jogo!")
+        }
 
         document.addEventListener("keydown", (event) => {
             handleKey(event.key);
         });
+
+        document.addEventListener("click", handleClick);
     }
 }

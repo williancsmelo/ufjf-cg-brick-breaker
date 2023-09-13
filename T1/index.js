@@ -14,9 +14,9 @@ initDefaultBasicLight(scene); // Create a basic light to illuminate the scene
 const camera = createCamera(scene, renderer);
 const plane = createPlane(scene);
 const bricks = createBricks(plane);
-const hitter = createHitter(plane);
 const ball = createBall(plane);
-const controls = createControls(isFullscreen(), false);
+const controls = createControls(isFullscreen());
+const hitter = createHitter(plane, ball, controls.isStarted);
 
 render();
 function render() {
@@ -24,7 +24,7 @@ function render() {
     renderer.render(scene, camera); // Render scene
     hitter.updateHitter();
     hitter.checkCollisions(ball);
-    ball.updateBall();
+    !controls.isStarted ? ball.setPosition(hitter.platform.position.x) : ball.updateBall();
   }
 
   requestAnimationFrame(render);

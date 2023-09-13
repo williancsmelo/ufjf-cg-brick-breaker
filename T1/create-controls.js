@@ -1,7 +1,7 @@
 import { Controls } from "./Controls.js";
 
-export function createControls(isFullscreen, isPaused) {
-  const controls = new Controls(isFullscreen, isPaused)
+export function createControls(isFullscreen) {
+  const controls = new Controls(isFullscreen)
   return controls;
 }
 

@@ -19,6 +19,7 @@ export default class Hitter {
     const initialPos = [0, eachPieceWidth, -eachPieceWidth, 2 * eachPieceWidth, -2 * eachPieceWidth];
     this.plane = plane;
     this.width = width;
+    this.events();
 
 
     this.pieces.forEach((piece, index) => {
@@ -34,8 +35,8 @@ export default class Hitter {
 
     // Adiciona e posiciona na cena
     this.pieces.forEach((piece, index) => {
-        this.platform.add(piece.object);
-        piece.object.position.x = initialPos[index];
+      this.platform.add(piece.object);
+      piece.object.position.x = initialPos[index];
     })
   }
 
@@ -53,12 +54,12 @@ export default class Hitter {
     const collision = this.pieces.find(piece => {
       return piece.bb.intersectsBox(ball.bb)
     })
-    if(!collision) return
+    if (!collision) return
     const angle = ball.movementVector.angleTo(collision.normal);
     let angleInDegree = angle * (180 / Math.PI)
-    if(ball.movementVector.x > 0) angleInDegree-= 90
+    if (ball.movementVector.x > 0) angleInDegree -= 90
     ball.movementVector = this.angleToVector(angleInDegree);
-    if(ball.movementVector.y < 0) ball.movementVector.y = 0.08
+    if (ball.movementVector.y < 0) ball.movementVector.y = 0.08
     ball.movementVector.normalize()
   }
 
@@ -69,7 +70,7 @@ export default class Hitter {
     var z = 0;
 
     return new T.Vector3(x, y, z);
-}
+  }
 
   _createCollisionBox(object, color = "red") {
     const bbPlat = new T.Box3().setFromObject(object);
@@ -86,12 +87,26 @@ export default class Hitter {
     return platform;
   }
 
+  events() {
+    const onMouseMove = (event) => {
+      const screenWidth = this.plane.geometry.parameters.width / 2
+      const totalWidth = window.innerWidth / 2;
+      const newPosition = event.clientX - totalWidth
+      if (Math.abs(newPosition) < (screenWidth - (this.width / 2))) {
+        this.setPosition(newPosition)
+        //if (!isStarted) ball.setPosition(newPosition)
+      }
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+  }
+
 }
 
 function createBBHelper(bb, color, piece) {
   // Create a bounding box helper
-  let helper = new T.Box3Helper( bb, color );
-  piece.add( helper );
-  
+  let helper = new T.Box3Helper(bb, color);
+  piece.add(helper);
+
   return helper;
 }
