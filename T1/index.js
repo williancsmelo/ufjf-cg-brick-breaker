@@ -19,7 +19,10 @@ const controls = createControls(isFullscreen());
 const hitter = createHitter(plane, ball, controls.isStarted);
 
 render();
+
 function render() {
+  if (controls.restartGame) restartGame();
+
   if (!controls.isPaused) {
     renderer.render(scene, camera); // Render scene
     hitter.updateHitter();
@@ -28,5 +31,13 @@ function render() {
   }
 
   requestAnimationFrame(render);
+}
+
+function restartGame() {
+  controls.setIsPaused(false)
+  controls.setIsStarted(false);
+  controls.setRestartGame(false);
+  ball.setPosition(0);
+  hitter.setPosition(0);
 }
 

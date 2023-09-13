@@ -2,6 +2,8 @@ export class Controls {
     isPaused = false;
     isFullscreen = false;
     isStarted = false;
+    restartGame = false;
+
 
     constructor(isFullscreen) {
         this.isFullscreen = isFullscreen;
@@ -20,6 +22,10 @@ export class Controls {
         this.isStarted = isStarted;
     }
 
+    setRestartGame(restartGame) {
+        this.restartGame = restartGame;
+    }
+
     events() {
         const handleKey = (key) => {
             if (key === " ") {
@@ -36,17 +42,13 @@ export class Controls {
                 else document.exitFullscreen();
             }
 
-            if (key === "Enter") {
-                this.isFullscreen = !this.isFullscreen;
-                if (this.isFullscreen)
-                    document.querySelector("canvas").requestFullscreen();
-                else document.exitFullscreen();
+            if (key === "R" || key === "r") {
+                this.restartGame = true;
             }
         };
 
         const handleClick = () => {
             if (!this.isStarted) this.isStarted = true;
-            console.log("Iniciou o jogo!")
         }
 
         document.addEventListener("keydown", (event) => {
