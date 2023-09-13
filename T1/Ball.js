@@ -1,5 +1,5 @@
 import * as T from "three";
-import { ball } from "./config/constants.js";
+import { ball, totalAxleY } from "./config/constants.js";
 
 
 export class Ball {
@@ -26,11 +26,15 @@ export class Ball {
     this.setPosition(0);
   }
   
-  updateBall() {
+  updateBall(controls) {
     this.object.position.x += this.movementVector.x * this.baseSpeed;
     this.object.position.y += this.movementVector.y * this.baseSpeed;
 
 		this.bb = new T.Box3().setFromObject(this.object);
+
+    if(this.object.position.y * -1 > totalAxleY)  {
+      controls.setIsStarted(false)
+    }
   }
 
   setPosition(x = ball.initialPositionX, y = ball.initialPositionY){

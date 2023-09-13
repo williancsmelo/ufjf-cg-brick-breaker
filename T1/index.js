@@ -28,7 +28,7 @@ function render() {
     renderer.render(scene, camera); // Render scene
     hitter.updateHitter();
     hitter.checkCollisions(ball);
-    !controls.isStarted ? ball.setPosition(hitter.platform.position.x) : ball.updateBall();
+    !controls.isStarted ? ball.setPosition(hitter.platform.position.x) : ball.updateBall(controls);
     checkColissionWithBrick(ball);
   }
 
