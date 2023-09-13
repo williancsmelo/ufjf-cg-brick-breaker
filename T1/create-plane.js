@@ -1,17 +1,24 @@
-import * as T from "three";
-export const createPlane = (scene) => {
-  const baseSize = window.innerHeight;
-  const planeGeometry = new T.PlaneGeometry(baseSize / 2, baseSize);
-  const planeMaterial = new T.MeshBasicMaterial({ color: "blue" });
-  const plane = new T.Mesh(planeGeometry, planeMaterial);
-  plane.position.z = -1;
-  scene.add(plane);
+import * as T from 'three'
+import { setDefaultMaterial } from '../libs/util/util.js'
 
-  window.addEventListener("resize", function () {
-    const newBaseSize = this.window.innerHeight;
-    plane.scale.x = newBaseSize / baseSize;
-    plane.scale.y = newBaseSize / baseSize;
-  });
+export const createPlane = scene => {
+  const baseSize = window.innerHeight
+  const plane = new T.Mesh(
+    new T.PlaneGeometry(baseSize / 2, baseSize),
+    setDefaultMaterial('blue')
+  )
+  plane.position.z = -1
+  scene.add(plane)
 
-  return plane;
-};
+  const eventListeners = {}
+  plane.addEventListener = (event, callback) => {
+    eventListeners[event] ??= []
+    eventListeners[event].push(callback)
+  }
+  window.addEventListener('resize', function () {
+    const newBaseSize = this.window.innerHeight
+    plane.scale.y = plane.scale.x = newBaseSize / baseSize
+  })
+
+  return plane
+}
