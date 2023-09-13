@@ -19,9 +19,15 @@ export class Ball {
     this.object = this.object;
     plane.add(this.object);
   }
-
+  
+  
+  resetBall(){
+    this.movementVector = new T.Vector3(0, 1, 0).normalize()
+    this.setPosition(0);
+  }
+  
   updateBall() {
-    this.object.position.x += this.movementVector.x; //* this.baseSpeed;
+    this.object.position.x += this.movementVector.x * this.baseSpeed;
     this.object.position.y += this.movementVector.y * this.baseSpeed;
 
 		this.bb = new T.Box3().setFromObject(this.object);

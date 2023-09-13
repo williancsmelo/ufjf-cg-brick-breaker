@@ -58,7 +58,7 @@ function restartGame(plane) {
   controls.setIsPaused(false)
   controls.setIsStarted(false);
   controls.setRestartGame(false);
-  ball.setPosition(0);
+  ball.resetBall();
   hitter.setPosition(0);
 
   bricks.forEach((brickRow) => {
