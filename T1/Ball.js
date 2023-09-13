@@ -21,9 +21,9 @@ export class Ball {
   }
   
   
-  resetBall(){
+  resetBall(positionX = 0){
     this.movementVector = new T.Vector3(0, 1, 0).normalize()
-    this.setPosition(0);
+    this.setPosition(positionX);
   }
   
   updateBall(controls) {
