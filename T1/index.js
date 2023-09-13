@@ -13,31 +13,61 @@ const scene = new T.Scene();
 initDefaultBasicLight(scene); // Create a basic light to illuminate the scene
 const camera = createCamera(scene, renderer);
 const plane = createPlane(scene);
-const bricks = createBricks(plane);
+let bricks = createBricks(plane);
 const ball = createBall(plane);
 const controls = createControls(isFullscreen());
 const hitter = createHitter(plane, ball, controls.isStarted);
-
 render();
 
 function render() {
-  if (controls.restartGame) restartGame();
+  if (controls.restartGame) restartGame(plane);
 
   if (!controls.isPaused) {
     renderer.render(scene, camera); // Render scene
     hitter.updateHitter();
     hitter.checkCollisions(ball);
     !controls.isStarted ? ball.setPosition(hitter.platform.position.x) : ball.updateBall();
+    checkColissionWithBrick(ball);
   }
 
   requestAnimationFrame(render);
 }
 
-function restartGame() {
+function deleteBrick(brick) {
+  brick.geometry.dispose();
+  brick.material.dispose();
+  brick.bb = new T.Box3();
+  plane.remove(brick.bb);
+  plane.remove(brick);
+}
+
+function checkColissionWithBrick() {
+  let stop;
+  bricks.forEach((brickRow) => {
+    stop = false
+    brickRow.forEach(brick => {
+      if (!stop && brick.checkCollisions(ball)) {
+        deleteBrick(brick)
+        stop = true;
+      }
+    })
+  })
+}
+
+function restartGame(plane) {
   controls.setIsPaused(false)
   controls.setIsStarted(false);
   controls.setRestartGame(false);
   ball.setPosition(0);
   hitter.setPosition(0);
+
+  bricks.forEach((brickRow) => {
+    brickRow.forEach(brick => {
+      deleteBrick(brick)
+    })
+  })
+
+  bricks = createBricks(plane);
+
 }
 

@@ -72,7 +72,7 @@ export default class Hitter {
     return new T.Vector3(x, y, z);
   }
 
-  _createCollisionBox(object, color = "red") {
+  _createCollisionBox(object) {
     const bbPlat = new T.Box3().setFromObject(object);
 
     return bbPlat;

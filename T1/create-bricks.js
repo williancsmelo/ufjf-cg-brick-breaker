@@ -1,6 +1,6 @@
 import { Brick } from "./Brick.js";
 
-const nColumns = 12;
+const nColumns = 8;
 const nRows = 6;
 
 export const createBricks = (plane) => {
@@ -12,9 +12,7 @@ export const createBricks = (plane) => {
     return [...Array(nColumns)].map((_, column) => {
       const x = borderLeft + brickWidth / 2 + column * brickWidth;
       const y = borderTop - topOffset - row * Brick.height - Brick.height / 2;
-      const brick = new Brick(plane, row + 1, brickWidth);
-      brick.position.x = x;
-      brick.position.y = y;
+      const brick = new Brick(plane, row + 1, brickWidth, x, y);
       return brick;
     });
   });
