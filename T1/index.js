@@ -16,21 +16,16 @@ const plane = createPlane(scene);
 const bricks = createBricks(plane);
 const hitter = createHitter(plane);
 const ball = createBall(plane);
-
-const state = {
-  fullScreen: isFullscreen(),
-  pause: false
-};
-createControls(state);
+const controls = createControls(isFullscreen(), false);
 
 render();
 function render() {
-  if (!state.pause) {
+  if (!controls.isPaused) {
     renderer.render(scene, camera); // Render scene
+    hitter.updateHitter();
+    hitter.checkCollisions(ball);
+    ball.updateBall();
   }
-  hitter.updateHitter();
-  hitter.checkCollisions(ball);
-  ball.updateBall();
 
   requestAnimationFrame(render);
 }

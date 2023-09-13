@@ -1,21 +1,7 @@
-export function createControls(state) {
-  const handleKey = (key) => {
-    if (key === " ") {
-      state.pause = !state.pause;
-      if (state.pause)
-        document.querySelector("body").classList.remove("invisible-cursor");
-      else document.querySelector("body").classList.add("invisible-cursor");
-    }
+import { Controls } from "./Controls.js";
 
-    if (key === "Enter") {
-      state.fullScreen = !state.fullScreen;
-      if (state.fullScreen)
-        document.querySelector("canvas").requestFullscreen();
-      else document.exitFullscreen();
-    }
-  };
-
-  document.addEventListener("keydown", (event) => {
-    handleKey(event.key);
-  });
+export function createControls(isFullscreen, isPaused) {
+  const controls = new Controls(isFullscreen, isPaused)
+  return controls;
 }
+
