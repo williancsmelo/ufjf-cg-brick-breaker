@@ -49,6 +49,8 @@ function render() {
 }
 
 function deleteBrick(brick) {
+  if(controls.isPaused) return;
+  
   brick.geometry.dispose()
   brick.material.dispose()
   brick.bb = new T.Box3()
@@ -72,9 +74,6 @@ function checkColissionWithBrick() {
 }
 
 function restartGame(plane) {
-  controls.setIsPaused(false)
-  controls.setIsStarted(false)
-  controls.setRestartGame(false)
   ball.resetBall()
   hitter.setPosition(0)
 
@@ -86,6 +85,10 @@ function restartGame(plane) {
   bricks = createBricks(plane);
   breakedBricks = [];
   updateScore(plane);
+  
+  controls.setIsPaused(false)
+  controls.setIsStarted(false)
+  controls.setRestartGame(false)
 }
 
 function updateScore() {
@@ -94,8 +97,9 @@ function updateScore() {
 }
 
 function finnishGame() {
-  if(breakedBricks.length === bricks.length && !controls.isPaused) {
-    setInterval(() => {
+  if(breakedBricks.length === bricks.length * bricks[0].length && !controls.isPaused) {
+    ball.resetBall();
+    setTimeout(() => {
       controls.setIsPaused(true);
       document.querySelector("#score").innerHTML = "Jogo finalizado";
     }, 20);
