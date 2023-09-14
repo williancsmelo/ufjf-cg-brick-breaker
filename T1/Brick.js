@@ -36,37 +36,20 @@ export class Brick extends T.Mesh {
   }
 
   checkCollisions(ball) {
-    // const collision = this.bb.intersectsBox(ball.bb)
-    // if (!collision) return false
-
-    // let normalVector = new T.Vector3(0, 1, 0)
-
-    // if (ball.bb.min.x == this.bb.max.x || ball.bb.max.x == this.bb.min.x) {
-    //   normalVector = new T.Vector3(1, 0, 0)
-    //   console.log('bateu do lado')
-    // } else {
-    //   console.log('bateu em cima')
-    // }
-
-    // // if (ball.bb.max.x >= rthis.bb.min.x && ball.bb.min.x <= this.bb.max.x)
-
     const collision = this.bb.intersectsBox(ball.bb)
     if (!collision) return false
 
     let normalVector = new T.Vector3(0, 0, 0)
 
-    let ballCenter = ball.bb.getCenter(new T.Vector3())
-    let blockCenter = this.bb.getCenter(new T.Vector3())
-
+    const ballCenter = ball.bb.getCenter(new T.Vector3())
     if (ballCenter.x > this.bb.max.x) normalVector = new T.Vector3(1, 0, 0)
     else if (ballCenter.x < this.bb.min.x)
       normalVector = new T.Vector3(-1, 0, 0)
+    else if (ballCenter.y > this.bb.max.y) normalVector = new T.Vector3(0, 1, 0)
+    else if (ballCenter.y < this.bb.min.y)
+      normalVector = new T.Vector3(0, -1, 0)
 
     normalVector.normalize()
-
-    ball.collide(normalVector)
-    return true
-
     ball.collide(normalVector)
     return true
   }
