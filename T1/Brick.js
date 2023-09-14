@@ -6,7 +6,7 @@ const getColor = row =>
     1: 'gray',
     2: 'red',
     3: 'yellow',
-    4: 'blue',
+    4: 'orange',
     5: 'pink',
     6: 'palegreen'
   }[row] || 'white')
@@ -15,7 +15,7 @@ export class Brick extends T.Mesh {
   broken = false
   bb = new T.Box3()
   plane
-  static height = 40
+  static height = 8
   constructor(plane, row, width, x, y) {
     const boxGeometry = new T.BoxGeometry(width, Brick.height, 1)
     super(boxGeometry, setDefaultMaterial(getColor(row)))
