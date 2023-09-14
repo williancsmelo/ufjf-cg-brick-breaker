@@ -1,7 +1,7 @@
 import { Brick } from './Brick.js'
 
 const nColumns = 2
-const nRows = 2
+const nRows = 6
 
 export const createBricks = plane => {
   const borderLeft = window.innerHeight / -4

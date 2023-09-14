@@ -10,6 +10,7 @@ export class Ball {
     setDefaultMaterial('red')
   )
   bb = new T.Box3().setFromObject(this.object)
+  colliding = false
 
   constructor(plane) {
     this.object.position.y = ball.initialPositionY
@@ -39,15 +40,17 @@ export class Ball {
   }
 
   collide(normalVector) {
+    if (this.colliding) return
+    this.colliding = true
     this.movementVector = this.movementVector.sub(
       normalVector
         .clone()
         .multiplyScalar(2 * this.movementVector.clone().dot(normalVector))
     )
     //if (this.movementVector.y < 0) this.movementVector.y = 0.25
-    this.movementVector.normalize();
+    this.movementVector.normalize()
+    this.colliding = false
   }
-
 }
 
 // function createBBHelper(bb, color, plataform) {
