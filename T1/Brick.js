@@ -13,7 +13,7 @@ const getColor = row =>
 
 export class Brick extends T.Mesh {
   broken = false
-  bb
+  bb = new T.Box3()
   plane
   static height = 8
   constructor(plane, row, width, x, y) {
@@ -32,15 +32,18 @@ export class Brick extends T.Mesh {
   }
 
   _createCollisionBox() {
-    const bbPlat = new T.Box3().setFromObject(this)
-    this.bb = bbPlat
+    this.bb.copy(new T.Box3().setFromObject(this))
   }
 
   checkCollisions(ball) {
     const collision = this.bb.intersectsBox(ball.bb)
     if (!collision) return false
-    //Movimento da Bola após colidir com uma brick
-    ball.movementVector.y *= -1;
-    return true;
+    let normalVector = new T.Vector3()
+    if (ball.bb.max.x > this.bb.max.x || ball.bb.min.x < this.bb.min.x)
+      normalVector = new T.Vector3(1, 0, 0)
+    else if (ball.bb.max.y > this.bb.max.y || ball.bb.min.y < this.bb.min.y)
+      normalVector = new T.Vector3(0, 1, 0)
+    ball.collide(normalVector)
+    return true
   }
 }
