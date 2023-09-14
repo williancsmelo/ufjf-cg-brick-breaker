@@ -1,6 +1,6 @@
 import { Brick } from './Brick.js'
 
-const nColumns = 2
+const nColumns = 8
 const nRows = 6
 
 export const createBricks = plane => {
