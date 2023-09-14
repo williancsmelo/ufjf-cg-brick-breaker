@@ -40,7 +40,7 @@ export class Brick extends T.Mesh {
     const collision = this.bb.intersectsBox(ball.bb)
     if (!collision) return false
     //Movimento da Bola após colidir com uma brick
-    ball.movementVector.y = -ball.movementVector.y
-    return true
+    ball.movementVector.y *= -1;
+    return true;
   }
 }

@@ -44,9 +44,10 @@ export class Ball {
         .clone()
         .multiplyScalar(2 * this.movementVector.clone().dot(normalVector))
     )
-    if (this.movementVector.y < 0) this.movementVector.y = 0.25
-    this.movementVector.normalize()
+    //if (this.movementVector.y < 0) this.movementVector.y = 0.25
+    this.movementVector.normalize();
   }
+
 }
 
 // function createBBHelper(bb, color, plataform) {
