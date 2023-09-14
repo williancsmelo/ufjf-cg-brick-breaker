@@ -58,9 +58,8 @@ function deleteBrick(brick) {
 }
 
 function checkColissionWithBrick() {
-  let stop
+  let stop = false
   bricks.forEach((brickRow, columnIndex) => {
-    stop = false
     brickRow.forEach((brick, rowIndex) => {
       if (!stop && brick.checkCollisions(ball)) {
         deleteBrick(brick)
