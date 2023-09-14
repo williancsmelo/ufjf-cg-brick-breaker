@@ -87,6 +87,8 @@ export default class Hitter {
     if (this.colliding) return
     this.colliding = true
     ball.collide(collision.normal)
+    if (ball.movementVector.y < 0) ball.movementVector.y = 0.25;
+    ball.movementVector.normalize();
   }
 
   angleToVector(angleInDegree) {
