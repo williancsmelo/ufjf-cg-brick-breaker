@@ -1,4 +1,5 @@
 import * as T from 'three'
+import { setDefaultMaterial } from '../libs/util/util.js'
 
 export default class Hitter {
   static platform
@@ -106,9 +107,9 @@ export default class Hitter {
     return bbPlat
   }
 
-  _createPiece(eachPieceWidth, height = 100, color = 'green') {
+  _createPiece(eachPieceWidth, height = 100) {
     const platformGeometry = new T.BoxGeometry(eachPieceWidth, height, 1)
-    const platformMaterial = new T.MeshBasicMaterial({ color })
+    const platformMaterial = setDefaultMaterial('green')
     const platform = new T.Mesh(platformGeometry, platformMaterial)
 
     return platform

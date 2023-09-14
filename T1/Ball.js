@@ -1,25 +1,24 @@
 import * as T from 'three'
 import { ball, totalAxleY } from './config/constants.js'
+import { setDefaultMaterial } from '../libs/util/util.js'
 
 export class Ball {
-  static height = 8
-  broken = false
   baseSpeed = 2
   movementVector = new T.Vector3(0, 1, 0)
   object = new T.Mesh(
-    new T.SphereGeometry(6, 32, 16),
-    new T.MeshBasicMaterial({ color: 'red' })
+    new T.SphereGeometry(6, 32, 32),
+    setDefaultMaterial('red')
   )
   bb = new T.Box3().setFromObject(this.object)
 
-  constructor(plane, width = 100, height = 5) {
+  constructor(plane) {
     this.object.position.y = ball.initialPositionY
     this.object.position.x = ball.initialPositionX
     plane.add(this.object)
   }
 
   resetBall(positionX = 0) {
-    this.movementVector = new T.Vector3(0, 1, 0).normalize()
+    this.movementVector = new T.Vector3(0, 1, 0)
     this.setPosition(positionX)
   }
 
