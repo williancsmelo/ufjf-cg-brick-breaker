@@ -17,9 +17,9 @@ export class Brick extends T.Mesh {
   plane
   static height = 8
   constructor(plane, row, width, x, y) {
-    const boxGeometry = new T.BoxGeometry(width, Brick.height, 1)
+    const boxGeometry = new T.BoxGeometry(width, Brick.height, 3)
     super(boxGeometry, setDefaultMaterial(getColor(row)))
-    this.position.set(x, y, 0)
+    this.position.set(x, y, 3)
     this.add(
       new T.LineSegments(
         new T.EdgesGeometry(boxGeometry),
