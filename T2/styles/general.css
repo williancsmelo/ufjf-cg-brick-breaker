@@ -1,0 +1,14 @@
+.invisible-cursor {
+  cursor: none;
+}
+
+#score {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 100;
+  display: block;
+  color: yellow;
+  font-size: 20px;
+}
