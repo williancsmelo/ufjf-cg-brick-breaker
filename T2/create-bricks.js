@@ -30,7 +30,7 @@ const nRows = 6
 export const createBricks = (plane, level = 1) => {
   const borderLeft = -50
   const borderTop = 100
-  const topOffset = 10
+  const topOffset = 30
   const leftOffset = 5
   const brickWidth = (100 - leftOffset * 2) / nColumns
   const bricks = [...Array(nRows)].map((_, row) => {

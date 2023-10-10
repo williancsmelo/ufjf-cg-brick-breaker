@@ -2,8 +2,9 @@ import * as T from "three";
 
 export const createCamera = (scene, renderer) => {
   const camera = new T.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 0, 130)
+  camera.position.set(5, 5, 125)
   camera.up.set(0, 1 ,0)
+  camera.lookAt(0, 2, -10)
   scene.add(camera);
 
   window.addEventListener(

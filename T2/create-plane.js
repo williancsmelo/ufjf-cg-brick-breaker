@@ -6,6 +6,7 @@ export const createPlane = scene => {
     new T.PlaneGeometry(100, 200),
     setDefaultMaterial('blue')
   )
+  plane.receiveShadow = true
   scene.add(plane)
 
   return plane

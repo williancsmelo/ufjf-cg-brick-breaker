@@ -307,7 +307,7 @@ export function initDefaultBasicLight(
   const ambientLight = new THREE.HemisphereLight(
     "white", // bright sky color
     "darkslategrey", // dim ground color
-    0.5 // intensity
+    0.53 // intensity
   );
 
   const mainLight = new THREE.DirectionalLight("white", 0.7);

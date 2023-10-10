@@ -20,8 +20,11 @@ export class Brick extends T.Mesh {
     *   2. 'special' : Será quebrado com 2 toques
     */
   constructor(plane, color, width, x, y, type = "normal") {
-    const boxGeometry = new T.BoxGeometry(width, Brick.height, 3)
-    super(boxGeometry, setDefaultMaterial(color))
+    const boxGeometry = new T.BoxGeometry(width, Brick.height, 10)
+    super(boxGeometry, new T.MeshLambertMaterial({
+      color,
+    }))
+    this.castShadow = true
     this.position.set(x, y, 1)
     this.add(
       new T.LineSegments(

@@ -7,7 +7,9 @@ export class Ball {
   movementVector = new T.Vector3(0, 1, 0)
   object = new T.Mesh(
     new T.SphereGeometry(ball.radius, 32, 32),
-    setDefaultMaterial('red')
+    new T.MeshPhongMaterial({
+      color: 'red'
+    })
   )
   bb = new T.Box3().setFromObject(this.object)
   colliding = false

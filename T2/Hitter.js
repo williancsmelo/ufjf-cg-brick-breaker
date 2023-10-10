@@ -1,5 +1,4 @@
 import * as T from 'three'
-import { setDefaultMaterial } from '../libs/util/util.js';
 import { CSG } from '../libs/other/CSGMesh.js' 
 
 export class Hitter {
@@ -80,7 +79,7 @@ export class Hitter {
     this.colliding = true
     ball.collide(new T.Vector3(0, 1, 0))
     if (ball.movementVector.y < 0) ball.movementVector.y = 0.25;
-    ball.movementVector.normalize();
+    ball.movementVector.normalize();- 100
   }
 
   updateHitter() {

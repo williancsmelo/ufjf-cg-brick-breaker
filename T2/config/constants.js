@@ -14,7 +14,7 @@ export const hitter = {
 
 export const ball = {
     radius: 3,
-    initialPositionY: plataformDistanceFromBottom + hitterHeight + 2 - 100,
+    initialPositionY: plataformDistanceFromBottom + hitterHeight + 3 - 100,
     initialPositionX: 0,
 }
 
