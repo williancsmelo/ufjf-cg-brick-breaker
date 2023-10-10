@@ -23,17 +23,17 @@ export class Hitter2 {
 
     this.plane.add(this.platform)
     this.platform.position.set(0, -289 , -1)
-    this.platform.rotateX(1.5708)
-    console.log(this.plane.position);
-    console.log(this.platform.position);
+    
   }
 
   _createPiece() {
     let auxMat = new T.Matrix4();
     
     // Base objects
-    let cylinderMesh = new T.Mesh( new T.CylinderGeometry(10, 10, 70, 32));
-    let cubeMesh = new T.Mesh(new T.BoxGeometry(0,1, 0.1, 0.1));
+    let cylinderMesh = new T.Mesh( new T.CylinderGeometry(60, 60, 10, 32));
+    cylinderMesh.rotateX(1.5708) // 90 graus
+    this.updateObject(cylinderMesh)
+    let cubeMesh = new T.Mesh(new T.BoxGeometry(120, 100, 100));
 
     // CSG holders
     let csgObject, cubeCSG, cylinderCSG
@@ -44,9 +44,9 @@ export class Hitter2 {
     csgObject = cylinderCSG.subtract(cubeCSG); // Execute subtraction
 
     let hitter = CSG.toMesh(csgObject, auxMat);
-    cylinderMesh.material = new T.MeshPhongMaterial({color: 'lightgreen'});
+    hitter.material = new T.MeshPhongMaterial({color: 'lightgreen'});
     
-    return cylinderMesh;
+    return hitter;
   }
 
   updateObject(mesh) {
