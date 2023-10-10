@@ -22,8 +22,7 @@ export class Hitter2 {
     this.platform = this._createPiece()
 
     this.plane.add(this.platform)
-    this.platform.position.set(0, -289 , -1)
-    
+    this.platform.position.set(0, -345 , -1);
   }
 
   _createPiece() {
