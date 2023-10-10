@@ -1,5 +1,59 @@
 import * as T from 'three'
-import { setDefaultMaterial } from '../libs/util/util.js'
+import { setDefaultMaterial } from '../libs/util/util.js';
+import { CSG } from '../libs/other/CSGMesh.js' 
+
+export class Hitter2 {
+  static platform
+  plane
+  width
+  stop = false
+  colliding = false
+
+  constructor(
+    plane,
+    width = 100,
+    height = 5,
+    color = 0x00ff00,
+    positionY = -350
+  ) {
+
+    this.plane = plane;
+    this.width = width;
+    this.platform = this._createPiece()
+
+    this.plane.add(this.platform)
+    this.platform.position.set(0, -289 , -1)
+    this.platform.rotateX(1.5708)
+    console.log(this.plane.position);
+    console.log(this.platform.position);
+  }
+
+  _createPiece() {
+    let auxMat = new T.Matrix4();
+    
+    // Base objects
+    let cylinderMesh = new T.Mesh( new T.CylinderGeometry(10, 10, 70, 32));
+    let cubeMesh = new T.Mesh(new T.BoxGeometry(0,1, 0.1, 0.1));
+
+    // CSG holders
+    let csgObject, cubeCSG, cylinderCSG
+
+    // Hitter - Cylinder SUBTRACT Cube
+    cylinderCSG = CSG.fromMesh(cylinderMesh);
+    cubeCSG = CSG.fromMesh(cubeMesh);
+    csgObject = cylinderCSG.subtract(cubeCSG); // Execute subtraction
+
+    let hitter = CSG.toMesh(csgObject, auxMat);
+    cylinderMesh.material = new T.MeshPhongMaterial({color: 'lightgreen'});
+    
+    return cylinderMesh;
+  }
+
+  updateObject(mesh) {
+    mesh.matrixAutoUpdate = false;
+    mesh.updateMatrix();
+  }
+}
 
 export default class Hitter {
   static platform
@@ -61,6 +115,7 @@ export default class Hitter {
     this.platform = this._createPiece(width, height)
     this.platform.position.set(0, positionY, 0)
     this.plane.add(this.platform)
+    console.log(this.platform.position)
 
     // Adiciona e posiciona na cena
     this.pieces.forEach((piece, index) => {
