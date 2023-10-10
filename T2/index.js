@@ -3,7 +3,8 @@ import { initRenderer, initDefaultBasicLight } from '../libs/util/util.js'
 import { createCamera } from './create-camera.js'
 import { createPlane } from './create-plane.js'
 import { createBricks } from './create-bricks.js'
-import { createHitter, createHitter2 } from './create-hitter.js'
+// import { createHitter, createHitter2 } from './create-hitter.js'
+import { createHitter2 } from './create-hitter.js'
 import { createBall } from './create-ball.js'
 import { createControls } from './create-controls.js'
 import { isFullscreen } from './utils.js'
@@ -17,8 +18,8 @@ const camera = createCamera(plane, renderer)
 const controls = createControls(isFullscreen())
 let bricks = createBricks(plane, controls.gameLevel)
 const ball = createBall(plane)
-const hitter = createHitter(plane, ball, controls.isStarted)
-const hitter2 = createHitter2(plane, ball, controls.isStarted)
+//const hitter = createHitter(plane, ball, controls.isStarted)
+const hitter = createHitter2(plane, ball, controls.isStarted)
 const walls = createWalls(plane)
 
 let breakedBricks = [] // Vetor para armazenar bricks quebradas - Exemplo: [{rowIndex: 2, columnIndex: 2}, ..., {rowIndex: 1, columnIndex: 0}]
@@ -31,6 +32,8 @@ function render() {
     renderer.render(scene, camera) // Render scene
     hitter.updateHitter()
     hitter.checkCollisions(ball)
+    // hitter.updateHitter()
+    // hitter.checkCollisions(ball)
     walls.forEach(wall => {
       let collideDeath = wall.checkCollisions(ball)
 
@@ -40,7 +43,7 @@ function render() {
       }
     })
     !controls.isStarted
-      ? ball.resetBall(hitter.platform.position.x)
+      ? ball.resetBall(hitter.hitter.position.x)
       : ball.updateBall(controls)
     checkColissionWithBrick(ball)
   }

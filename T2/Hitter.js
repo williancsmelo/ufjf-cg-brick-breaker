@@ -3,36 +3,34 @@ import { setDefaultMaterial } from '../libs/util/util.js';
 import { CSG } from '../libs/other/CSGMesh.js' 
 
 export class Hitter2 {
-  static platform
+  static hitter
   plane
-  width
   stop = false
   colliding = false
+  bb
 
   constructor(
     plane,
-    width = 100,
-    height = 5,
-    color = 0x00ff00,
-    positionY = -350
+    color = "red",
+    positionY = -124
   ) {
 
     this.plane = plane;
-    this.width = width;
-    this.platform = this._createPiece()
+    this.hitter = this._createPiece(color)
+    this.events()
 
-    this.plane.add(this.platform)
-    this.platform.position.set(0, -345 , -1);
+    this.plane.add(this.hitter)
+    this.hitter.position.set(0, -124 , -1);
   }
 
-  _createPiece() {
+  _createPiece(color) {
     let auxMat = new T.Matrix4();
     
     // Base objects
-    let cylinderMesh = new T.Mesh( new T.CylinderGeometry(60, 60, 10, 32));
+    let cylinderMesh = new T.Mesh( new T.CylinderGeometry(40, 40, 10, 32));
     cylinderMesh.rotateX(1.5708) // 90 graus
     this.updateObject(cylinderMesh)
-    let cubeMesh = new T.Mesh(new T.BoxGeometry(120, 100, 100));
+    let cubeMesh = new T.Mesh(new T.BoxGeometry(90, 73, 100));
 
     // CSG holders
     let csgObject, cubeCSG, cylinderCSG
@@ -43,14 +41,55 @@ export class Hitter2 {
     csgObject = cylinderCSG.subtract(cubeCSG); // Execute subtraction
 
     let hitter = CSG.toMesh(csgObject, auxMat);
-    hitter.material = new T.MeshPhongMaterial({color: 'lightgreen'});
+    hitter.material = new T.MeshPhongMaterial({color: color});
     
     return hitter;
+  }
+
+  setPosition(newPosition) {
+    this.hitter.position.x = newPosition;
+  }
+
+  events() {
+    const onMouseMove = event => {
+      const screenWidth = this.plane.geometry.parameters.width / 2
+      const totalWidth = window.innerWidth / 2
+      const newPosition = event.clientX - totalWidth
+      //if (Math.abs(newPosition) < screenWidth - this.width / 2) {
+        this.setPosition(newPosition)
+        //if (!isStarted) ball.setPosition(newPosition)
+      //}
+    }
+
+    window.addEventListener('mousemove', onMouseMove)
   }
 
   updateObject(mesh) {
     mesh.matrixAutoUpdate = false;
     mesh.updateMatrix();
+  }
+
+  checkCollisions(ball) {
+    const collision = this.bb.intersectsBox(ball.bb);
+    if (!collision) {
+      this.colliding = false
+      return
+    }
+    if (this.colliding) return
+    this.colliding = true
+    ball.collide(new T.Vector3(0, 1, 0))
+    if (ball.movementVector.y < 0) ball.movementVector.y = 0.25;
+    ball.movementVector.normalize();
+  }
+
+  updateHitter() {
+    this.bb = this._createCollisionBox(this.hitter)
+  }
+
+  _createCollisionBox(object) {
+    const bbPlat = new T.Box3().setFromObject(object)
+
+    return bbPlat
   }
 }
 
@@ -112,9 +151,8 @@ export default class Hitter {
     })
 
     this.platform = this._createPiece(width, height)
-    this.platform.position.set(0, positionY, 0)
+    this.platform.position.set(0, -85, 0)
     this.plane.add(this.platform)
-    console.log(this.platform.position)
 
     // Adiciona e posiciona na cena
     this.pieces.forEach((piece, index) => {
@@ -170,24 +208,17 @@ export default class Hitter {
   }
 
   events() {
-    const onMouseMove = event => {
-      const screenWidth = this.plane.geometry.parameters.width / 2
-      const totalWidth = window.innerWidth / 2
-      const newPosition = event.clientX - totalWidth
-      if (Math.abs(newPosition) < screenWidth - this.width / 2) {
-        this.setPosition(newPosition)
-        //if (!isStarted) ball.setPosition(newPosition)
-      }
-    }
+  //   const onMouseMove = event => {
+  //     const screenWidth = this.plane.geometry.parameters.width / 2
+  //     const totalWidth = window.innerWidth / 2
+  //     const newPosition = event.clientX - totalWidth
+  //     if (Math.abs(newPosition) < screenWidth - this.width / 2) {
+  //       this.setPosition(newPosition)
+  //       //if (!isStarted) ball.setPosition(newPosition)
+  //     }
+  //   }
 
-    window.addEventListener('mousemove', onMouseMove)
+  //   window.addEventListener('mousemove', onMouseMove)
+  // }
   }
-}
-
-function createBBHelper(bb, color, piece) {
-  // Create a bounding box helper
-  let helper = new T.Box3Helper(bb, color)
-  piece.add(helper)
-
-  return helper
 }

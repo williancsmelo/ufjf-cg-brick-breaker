@@ -9,7 +9,7 @@ export const hitter = {
     height: hitterHeight,
     width: 30,
     color: 0x00ff00,
-    positionY: plataformDistanceFromBottom - 100
+    positionY: -124
 }
 
 export const ball = {
