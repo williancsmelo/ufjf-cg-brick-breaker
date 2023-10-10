@@ -37,7 +37,6 @@ export const createBricks = (plane, level = 1) => {
     return [...Array(nColumns)].map((_, column) => {
       const x = borderLeft + brickWidth / 2 + column * brickWidth + leftOffset
       const y = borderTop - topOffset - row * Brick.height - Brick.height / 2
-      console.log("level: ", level)
       const colorId = level === 1 ? row + 1 : Math.floor(Math.random() * 6) + 1; // Verifica o nivel do jogo para a criação dos tijolos
       const color = getColor(colorId);
       let brickType = color === specialBrickColor ? 'special' : 'normal' // Verifica se bloco deve ser normal ou especial

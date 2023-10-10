@@ -21,6 +21,7 @@ const hitter = createHitter(plane, ball, controls.isStarted)
 const walls = createWalls(plane)
 
 let breakedBricks = [] // Vetor para armazenar bricks quebradas - Exemplo: [{rowIndex: 2, columnIndex: 2}, ..., {rowIndex: 1, columnIndex: 0}]
+
 render()
 
 function render() {
@@ -43,7 +44,7 @@ function render() {
     !controls.isStarted
       ? ball.resetBall(hitter.hitter.position.x)
       : ball.updateBall(controls)
-    checkColissionWithBrick(ball)
+    checkColissionWithBrick()
   }
   finishGame()
   requestAnimationFrame(render)
@@ -60,18 +61,20 @@ function deleteBrick(brick) {
 }
 
 function checkColissionWithBrick() {
-  let stop
-  bricks.forEach((brickRow, columnIndex) => {
-    stop = false
-    brickRow.forEach((brick, rowIndex) => {
-      if (!stop && brick.checkCollisions(ball)) {
+  loop1: for(let columnIndex = 0; columnIndex < bricks.length; columnIndex++){
+    const bricksRow = bricks[columnIndex];
+    for(let rowIndex = 0; rowIndex < bricksRow.length; rowIndex++){
+      const brick = bricksRow[rowIndex];
+      if (brick.checkCollisions(ball)) {
         deleteBrick(brick)
-        stop = true
         breakedBricks.push({ rowIndex, columnIndex }) // Guarda a brick quebrada no vetor
         updateScore(plane)
+        break loop1;
       }
-    })
-  })
+    }
+
+
+  }
 }
 
 function restartGame(plane) {
