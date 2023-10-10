@@ -55,10 +55,11 @@ export class Hitter {
       const screenWidth = this.plane.geometry.parameters.width / 2
       const totalWidth = window.innerWidth / 2
       const newPosition = event.clientX - totalWidth
-      //if (Math.abs(newPosition) < screenWidth - this.width / 2) {
+      console.log(this.bb.max.x - this.bb.min.x)
+      if (Math.abs(newPosition) < screenWidth - Math.abs(this.bb.max.x - this.bb.min.x) / 2) {
         this.setPosition(newPosition)
         //if (!isStarted) ball.setPosition(newPosition)
-      //}
+      }
     }
 
     window.addEventListener('mousemove', onMouseMove)
