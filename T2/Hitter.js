@@ -55,7 +55,6 @@ export class Hitter {
       const screenWidth = this.plane.geometry.parameters.width / 2
       const totalWidth = window.innerWidth / 2
       const newPosition = event.clientX - totalWidth
-      console.log(this.bb.max.x - this.bb.min.x)
       if (Math.abs(newPosition) < screenWidth - Math.abs(this.bb.max.x - this.bb.min.x) / 2) {
         this.setPosition(newPosition)
         //if (!isStarted) ball.setPosition(newPosition)
@@ -78,9 +77,16 @@ export class Hitter {
     }
     if (this.colliding) return
     this.colliding = true
-    ball.collide(new T.Vector3(0, 1, 0))
+    const normalVector = this._calcNormalVector(collision)
+
+    ball.collide(normalVector)
     if (ball.movementVector.y < 0) ball.movementVector.y = 0.25;
     ball.movementVector.normalize();
+  }
+
+  _calcNormalVector(collision) {
+    console.log(collision);
+    return new T.Vector3(0, 1, 0);
   }
 
   updateHitter() {
