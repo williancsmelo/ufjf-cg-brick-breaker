@@ -6,7 +6,7 @@ export class Brick extends T.Mesh {
   bb = new T.Box3()
   plane
   type
-  static height = 8
+  static height = 6
 
     /**
     *  Cria uma Brick.
@@ -20,16 +20,16 @@ export class Brick extends T.Mesh {
     *   2. 'special' : Será quebrado com 2 toques
     */
   constructor(plane, color, width, x, y, type = "normal") {
-    
     const boxGeometry = new T.BoxGeometry(width, Brick.height, 3)
     super(boxGeometry, setDefaultMaterial(color))
-    this.position.set(x, y, 3)
+    this.position.set(x, y, 1)
     this.add(
       new T.LineSegments(
         new T.EdgesGeometry(boxGeometry),
         new T.LineBasicMaterial({ color: 'black', linewidth: 2 })
       )
     )
+    console.log(this.position, plane.position)
     plane.add(this)
     this._createCollisionBox()
     this.plane = plane

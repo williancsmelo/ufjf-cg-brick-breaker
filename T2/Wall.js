@@ -20,7 +20,7 @@ export class Wall {
     */
     constructor(plane, positionX, positionY, normal, collideDeath = false) {
       this.object = new T.Mesh(
-          new T.BoxGeometry(window.innerHeight / 2, window.innerHeight),
+          new T.BoxGeometry(100, 200),
           new T.MeshBasicMaterial({ color: 'black' })
         )
   

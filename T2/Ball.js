@@ -6,7 +6,7 @@ export class Ball {
   baseSpeed = 2
   movementVector = new T.Vector3(0, 1, 0)
   object = new T.Mesh(
-    new T.SphereGeometry(6, 32, 32),
+    new T.SphereGeometry(ball.radius, 32, 32),
     setDefaultMaterial('red')
   )
   bb = new T.Box3().setFromObject(this.object)

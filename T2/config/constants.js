@@ -1,20 +1,21 @@
 
 
-const plataformDistanceFromBottom = 30; // Distancia da plataforma até a borda de baixo da tela
-const hitterHeight = 5; // Tamanho do plataforma rebatedora (Hitter)
+const plataformDistanceFromBottom = 15; // Distancia da plataforma até a borda de baixo da tela
+const hitterHeight = 3; // Tamanho do plataforma rebatedora (Hitter)
 
 export const totalAxleY = (window.innerHeight / 2)
 
 export const hitter = {
     height: hitterHeight,
-    width: 100,
+    width: 30,
     color: 0x00ff00,
-    positionY: plataformDistanceFromBottom - totalAxleY
+    positionY: plataformDistanceFromBottom - 100
 }
 
 export const ball = {
+    radius: 3,
+    initialPositionY: plataformDistanceFromBottom + hitterHeight + 2 - 100,
     initialPositionX: 0,
-    initialPositionY: (plataformDistanceFromBottom + hitterHeight) + 5 - totalAxleY,
 }
 
 export const specialBrickColor = "gray"

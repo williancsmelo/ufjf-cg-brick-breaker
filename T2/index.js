@@ -12,8 +12,8 @@ import { createWalls } from './create-walls.js'
 const renderer = initRenderer()
 const scene = new T.Scene()
 initDefaultBasicLight(scene) // Create a basic light to illuminate the scene
-const camera = createCamera(scene, renderer)
 const plane = createPlane(scene)
+const camera = createCamera(plane, renderer)
 let bricks = createBricks(plane)
 const ball = createBall(plane)
 const controls = createControls(isFullscreen())
