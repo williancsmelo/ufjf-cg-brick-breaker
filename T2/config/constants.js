@@ -16,3 +16,5 @@ export const ball = {
     initialPositionX: 0,
     initialPositionY: (plataformDistanceFromBottom + hitterHeight) + 5 - totalAxleY,
 }
+
+export const specialBrickColor = "gray"

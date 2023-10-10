@@ -7,7 +7,7 @@ import { createHitter } from './create-hitter.js'
 import { createBall } from './create-ball.js'
 import { createControls } from './create-controls.js'
 import { isFullscreen } from './utils.js'
-import { createWalls } from './Create-walls.js'
+import { createWalls } from './create-walls.js'
 
 const renderer = initRenderer()
 const scene = new T.Scene()
@@ -43,7 +43,7 @@ function render() {
       : ball.updateBall(controls)
     checkColissionWithBrick(ball)
   }
-  finnishGame()
+  finishGame()
   requestAnimationFrame(render)
 }
 
@@ -95,7 +95,7 @@ function updateScore() {
   document.querySelector('#score').innerHTML = 'Pontuação: ' + score
 }
 
-function finnishGame() {
+function finishGame() {
   if (
     breakedBricks.length === bricks.length * bricks[0].length &&
     !controls.isPaused

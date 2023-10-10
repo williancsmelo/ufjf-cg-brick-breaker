@@ -3,6 +3,7 @@ export class Controls {
   isFullscreen = false
   isStarted = false
   restartGame = false
+  gameLevel = 1
 
   constructor(isFullscreen) {
     this.isFullscreen = isFullscreen
