@@ -14,9 +14,9 @@ const scene = new T.Scene()
 initDefaultBasicLight(scene) // Create a basic light to illuminate the scene
 const plane = createPlane(scene)
 const camera = createCamera(plane, renderer)
-let bricks = createBricks(plane)
-const ball = createBall(plane)
 const controls = createControls(isFullscreen())
+let bricks = createBricks(plane, controls.gameLevel)
+const ball = createBall(plane)
 const hitter = createHitter(plane, ball, controls.isStarted)
 const walls = createWalls(plane)
 
@@ -81,7 +81,7 @@ function restartGame(plane) {
       deleteBrick(brick)
     })
   })
-  bricks = createBricks(plane)
+  bricks = createBricks(controls.gameLevel, plane)
   breakedBricks = []
   updateScore(plane)
 
