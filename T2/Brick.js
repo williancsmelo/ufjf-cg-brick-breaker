@@ -29,7 +29,6 @@ export class Brick extends T.Mesh {
         new T.LineBasicMaterial({ color: 'black', linewidth: 2 })
       )
     )
-    console.log(this.position, plane.position)
     plane.add(this)
     this._createCollisionBox()
     this.plane = plane
@@ -53,14 +52,29 @@ export class Brick extends T.Mesh {
     if (!collision) return false
 
     let normalVector = new T.Vector3(0, 0, 0)
+    let left, right, bottom, top = false;
 
     const ballCenter = ball.bb.getCenter(new T.Vector3())
-    if (ballCenter.x > this.bb.max.x) normalVector = new T.Vector3(1, 0, 0)
-    else if (ballCenter.x < this.bb.min.x)
+    if (ballCenter.x > this.bb.max.x) {
+      right = true;
+      normalVector = new T.Vector3(1, 0, 0)
+    }
+    if (ballCenter.x < this.bb.min.x){
       normalVector = new T.Vector3(-1, 0, 0)
-    else if (ballCenter.y > this.bb.max.y) normalVector = new T.Vector3(0, 1, 0)
-    else if (ballCenter.y < this.bb.min.y)
+      left = true;
+    }  
+    if (ballCenter.y > this.bb.max.y) {
+      top = true;
+      normalVector = new T.Vector3(0, 1, 0)
+    }
+    if (ballCenter.y < this.bb.min.y){
+      bottom = true;
       normalVector = new T.Vector3(0, -1, 0)
+    }
+
+    if(bottom && (right || left))  normalVector = new T.Vector3(0, -1, 0)
+    if(top && (right || left))  normalVector = new T.Vector3(0, 1, 0)
+      
 
     normalVector.normalize()
     ball.collide(normalVector)
