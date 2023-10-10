@@ -29,7 +29,6 @@ export class Brick extends T.Mesh {
         new T.LineBasicMaterial({ color: 'black', linewidth: 2 })
       )
     )
-    console.log(this.position, plane.position)
     plane.add(this)
     this._createCollisionBox()
     this.plane = plane

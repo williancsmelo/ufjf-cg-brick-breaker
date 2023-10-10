@@ -20,18 +20,16 @@ export class Wall {
     */
     constructor(plane, positionX, positionY, normal, collideDeath = false) {
       this.object = new T.Mesh(
-          new T.BoxGeometry(100, 200),
+          new T.BoxGeometry(100, 200, 3),
           new T.MeshBasicMaterial({ color: 'black' })
         )
   
-      
-      plane.add(this.object);
-      this.object.position.set(positionX, positionY, 0);
+      this.object.position.set(positionX, positionY, 1);
       this._createCollisionBox();
-      this.bb = new T.Box3().setFromObject(this.object)
       this.plane = plane;
       this.collideDeath = collideDeath;
       this.normal = normal;
+      plane.add(this.object);
     }
   
     _createCollisionBox() {
