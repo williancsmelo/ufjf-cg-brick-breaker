@@ -16,6 +16,7 @@ export class Ball {
   constructor(plane) {
     this.object.position.y = ball.initialPositionY
     this.object.position.x = ball.initialPositionX
+    this.object.castShadow = true
     plane.add(this.object)
   }
 
