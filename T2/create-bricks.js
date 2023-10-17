@@ -1,5 +1,5 @@
-import { Brick } from './Brick.js'
-import { specialBrickColor } from './config/constants.js'
+import { Brick } from "./Brick.js";
+import { specialBrickColor } from "./config/constants.js";
 
 /**
   *  Escolhe uma cor para o tijolo

@@ -1,6 +1,5 @@
 import * as T from 'three'
 import { ball, totalAxleY } from './config/constants.js'
-import { setDefaultMaterial } from '../libs/util/util.js'
 
 export class Ball {
   baseSpeed = 2
@@ -17,6 +16,7 @@ export class Ball {
   constructor(plane) {
     this.object.position.y = ball.initialPositionY
     this.object.position.x = ball.initialPositionX
+    this.object.castShadow = true
     plane.add(this.object)
   }
 

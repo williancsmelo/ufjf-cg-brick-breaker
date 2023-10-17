@@ -1,10 +1,9 @@
 import * as T from 'three'
-import { setDefaultMaterial } from '../libs/util/util.js'
 
 export const createPlane = scene => {
   const plane = new T.Mesh(
     new T.PlaneGeometry(100, 200),
-    setDefaultMaterial('blue')
+    new T.MeshLambertMaterial({ color: 'blue' })
   )
   plane.receiveShadow = true
   scene.add(plane)

@@ -5,7 +5,6 @@ import { createBricks } from './create-bricks.js'
 import { createHitter } from './create-hitter.js'
 import { createBall } from './create-ball.js'
 import { createControls } from './create-controls.js'
-import { isFullscreen } from './utils.js'
 import { createWalls } from './create-walls.js'
 import { createLight } from './create-light.js'
 import { createRenderer } from './create-renderer.js'
@@ -15,7 +14,7 @@ const scene = new T.Scene()
 const plane = createPlane(scene)
 createLight(scene, plane)
 const camera = createCamera(plane, renderer)
-const controls = createControls(isFullscreen())
+const controls = createControls()
 let bricks = createBricks(plane, 2)
 const ball = createBall(plane)
 const hitter = createHitter(plane, ball, controls.isStarted)
@@ -76,11 +75,9 @@ function checkColissionWithBrick() {
         deleteBrick(brick)
         breakedBricks.push({ rowIndex, columnIndex }) // Guarda a brick quebrada no vetor
         updateScore(plane)
-        break loop1;
+        break loop1
       }
     }
-
-
   }
 }
 
