@@ -4,6 +4,7 @@ export class Controls {
   isStarted = false
   restartGame = false
   gameLevel = 1
+  finishGame = false
 
   constructor(isFullscreen) {
     this.isFullscreen = isFullscreen
@@ -24,6 +25,14 @@ export class Controls {
 
   setRestartGame(restartGame) {
     this.restartGame = restartGame
+  }
+
+  setGameLevel(gameLevel) {
+    this.gameLevel = gameLevel
+  }
+
+  setFinishGame(finish) {
+    this.finishGame = finish
   }
 
   events() {

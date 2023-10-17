@@ -16,7 +16,7 @@ const plane = createPlane(scene)
 createLight(scene, plane)
 const camera = createCamera(plane, renderer)
 const controls = createControls(isFullscreen())
-let bricks = createBricks(plane, controls.gameLevel)
+let bricks = createBricks(plane, 2)
 const ball = createBall(plane)
 const hitter = createHitter(plane, ball, controls.isStarted)
 const walls = createWalls(plane)
@@ -26,7 +26,11 @@ let breakedBricks = [] // Vetor para armazenar bricks quebradas - Exemplo: [{row
 render()
 
 function render() {
-  if (controls.restartGame) restartGame(plane)
+  if (controls.restartGame) {
+
+    const newLevel = controls.finishGame ? 2 : 1
+    restartGame(plane, newLevel)
+  }
 
   if (!controls.isPaused) {
     renderer.render(scene, camera) // Render scene
@@ -47,7 +51,9 @@ function render() {
       : ball.updateBall(controls)
     checkColissionWithBrick()
   }
-  finishGame()
+
+  if (!controls.finishGame) finishGame()
+
   requestAnimationFrame(render)
 }
 
@@ -62,11 +68,11 @@ function deleteBrick(brick) {
 }
 
 function checkColissionWithBrick() {
-  loop1: for(let columnIndex = 0; columnIndex < bricks.length; columnIndex++){
+  loop1: for (let columnIndex = 0; columnIndex < bricks.length; columnIndex++) {
     const bricksRow = bricks[columnIndex];
-    for(let rowIndex = 0; rowIndex < bricksRow.length; rowIndex++){
+    for (let rowIndex = 0; rowIndex < bricksRow.length; rowIndex++) {
       const brick = bricksRow[rowIndex];
-      if (brick.checkCollisions(ball)) {
+      if (brick?.checkCollisions(ball)) {
         deleteBrick(brick)
         breakedBricks.push({ rowIndex, columnIndex }) // Guarda a brick quebrada no vetor
         updateScore(plane)
@@ -78,7 +84,7 @@ function checkColissionWithBrick() {
   }
 }
 
-function restartGame(plane) {
+function restartGame(plane, newLevel) {
   ball.resetBall()
   hitter.setPosition(0)
 
@@ -87,18 +93,20 @@ function restartGame(plane) {
       deleteBrick(brick)
     })
   })
-  bricks = createBricks(controls.gameLevel, plane)
+  bricks = createBricks(plane, controls.gameLevel)
   breakedBricks = []
   updateScore(plane)
 
   controls.setIsPaused(false)
   controls.setIsStarted(false)
+  controls.setFinishGame(false)
+  controls.setGameLevel(newLevel ?? 1)
   controls.setRestartGame(false)
 }
 
 function updateScore() {
   let score = breakedBricks.length
-  document.querySelector('#score').innerHTML = 'Pontuação: ' + score
+  document.querySelector('#score').innerHTML = `Level ${controls.gameLevel} - Pontuação: ${score}`
 }
 
 function finishGame() {
@@ -106,10 +114,24 @@ function finishGame() {
     breakedBricks.length === bricks.length * bricks[0].length &&
     !controls.isPaused
   ) {
+    console.log("CHAMOU FINISH GAME!1 ", controls.isPaused)
+    controls.setFinishGame(true)
     ball.resetBall()
+
     setTimeout(() => {
       controls.setIsPaused(true)
-      document.querySelector('#score').innerHTML = 'Jogo finalizado'
+      if (controls.gameLevel === 1) {
+        document.querySelector('#score').innerHTML = 'Primeiro nível finalizado!'
+        controls.setGameLevel(2)
+
+
+        setTimeout(() => {
+          controls.setRestartGame(true)
+        }, 1000)
+      }
+      else document.querySelector('#score').innerHTML = 'Jogo finalizado'
     }, 20)
   }
+
+
 }
