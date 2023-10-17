@@ -1,0 +1,11 @@
+white - 1
+tangerine - 2
+pale blue - 3
+pale green - 4
+red - 5
+blue - 6
+pink - 7
+orange - 8
+gray (stronger) - g
+yellow (indestructible) - y
+void - v
