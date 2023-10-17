@@ -42,6 +42,8 @@ export class Hitter {
     let hitter = CSG.toMesh(csgObject, auxMat);
     hitter.material = new T.MeshPhongMaterial({ color: color });
 
+    hitter.castShadow = true;
+
     return hitter;
   }
 

@@ -1,16 +1,17 @@
 import * as T from 'three'
 import { createCamera } from './create-camera.js'
-import { createPlane } from './create-plane.js'
-import { createLight } from './create-light.js'
+import { initDefaultBasicLight, createGroundPlaneXZ } from '../libs/util/util.js'
 import { createRenderer } from './create-renderer.js'
 import { Hitter } from './Hitter.js'
 
-const renderer = createRenderer()
-const scene = new T.Scene()
-const plane = createPlane(scene, 1000, 1000, 'rgb(125, 125, 125)')
-createLight(scene, plane)
-const camera = createCamera(plane, renderer)
-const hitter = new Hitter(plane, 'green', -112, true);
+const renderer = createRenderer();
+const scene = new T.Scene();
+initDefaultBasicLight(scene) // Create a basic light to illuminate the scene
+const plane = createPlane(300, 300);
+plane.position.y = -100;
+scene.add(plane);
+const camera = createCamera(scene, renderer)
+const hitter = new Hitter(scene, 'green', -112, true);
 import { InfoBox } from "../libs/util/util.js";
 
 
@@ -35,3 +36,16 @@ function render() {
 
     requestAnimationFrame(render)
 }
+
+function createPlane(width = 100, height = 200, color = 'rgb(200, 200, 200)')  {
+    const plane = new T.Mesh(
+      new T.PlaneGeometry(width, height),
+      new T.MeshLambertMaterial({ color: color })
+    )
+  
+    plane.receiveShadow = true;
+    plane.rotateX(-1.5708);
+  
+    return plane
+}
+  

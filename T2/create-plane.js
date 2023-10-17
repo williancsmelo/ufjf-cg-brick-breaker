@@ -5,6 +5,7 @@ export const createPlane = (scene, width = 100, height = 200, color = 'blue') =>
     new T.PlaneGeometry(width, height),
     new T.MeshLambertMaterial({ color: color })
   )
+
   plane.receiveShadow = true
   scene.add(plane)
 
