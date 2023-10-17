@@ -14,17 +14,19 @@ export class Hitter {
     this.events();
 
     this.plane.add(this.hitter);
-    this.hitter.position.set(0, -124, 0);
+    this.hitter.position.set(0, -112, 0);
   }
 
   _createPiece(color) {
     let auxMat = new T.Matrix4();
 
     // Base objects
-    let cylinderMesh = new T.Mesh(new T.CylinderGeometry(40, 40, 10, 32));
+    let cylinderMesh = new T.Mesh(new T.CylinderGeometry(30, 30, 10, 64));
     cylinderMesh.rotateX(1.5708); // 90 graus
     this.updateObject(cylinderMesh);
-    let cubeMesh = new T.Mesh(new T.BoxGeometry(90, 73, 100));
+    let cubeMesh = new T.Mesh(new T.BoxGeometry(60, 60, 100));
+    cubeMesh.position.y = -3;
+    this.updateObject(cubeMesh);
 
     // CSG holders
     let csgObject, cubeCSG, cylinderCSG;
@@ -87,7 +89,7 @@ export class Hitter {
     let hitterPosition = new T.Vector3();
 
     hitterPosition.copy(hitter.position);
-    hitterPosition.y = -124;
+    hitterPosition.y = -137;
 
     let normalVector = new T.Vector3();
     normalVector.subVectors(ballPosition, hitterPosition);
