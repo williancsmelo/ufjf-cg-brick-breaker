@@ -14,7 +14,7 @@ export class Hitter {
     this.events();
 
     this.plane.add(this.hitter);
-    this.hitter.position.set(0, -124, -1);
+    this.hitter.position.set(0, -124, 0);
   }
 
   _createPiece(color) {
@@ -49,7 +49,6 @@ export class Hitter {
       const screenWidth = this.plane.geometry.parameters.width / 2;
       const totalWidth = window.innerWidth / 2;
       const newPosition = event.clientX - totalWidth;
-      console.log(this.bb.max.x - this.bb.min.x);
       if (
         Math.abs(newPosition) <
         screenWidth - Math.abs(this.bb.max.x - this.bb.min.x) / 2
@@ -75,10 +74,25 @@ export class Hitter {
     }
     if (this.colliding) return;
     this.colliding = true;
-    ball.collide(new T.Vector3(0, 1, 0));
+
+    let normalVector = this.calcNormalVector(ball, this.hitter);
+
+    ball.collide(normalVector);
     if (ball.movementVector.y < 0) ball.movementVector.y = 0.25;
     ball.movementVector.normalize();
-    -100;
+  }
+
+  calcNormalVector(ball, hitter) {
+    let ballPosition = ball.object.position;
+    let hitterPosition = new T.Vector3();
+
+    hitterPosition.copy(hitter.position);
+    hitterPosition.y = -124;
+
+    let normalVector = new T.Vector3();
+    normalVector.subVectors(ballPosition, hitterPosition);
+
+    return normalVector.normalize();
   }
 
   updateHitter() {
