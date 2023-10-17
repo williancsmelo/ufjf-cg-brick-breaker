@@ -21,7 +21,7 @@ export class Wall {
   constructor(plane, positionX, positionY, normal, collideDeath = false) {
     this.object = new T.Mesh(
       new T.BoxGeometry(100, 200, 3),
-      new T.MeshBasicMaterial({ color: positionY === -200 ? 'red' : 'black' })
+      new T.MeshBasicMaterial({ color: 'black' })
     )
 
     this.object.position.set(positionX, positionY, 1)
