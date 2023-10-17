@@ -1,6 +1,5 @@
 import * as T from 'three'
 import { ball, totalAxleY } from './config/constants.js'
-import { setDefaultMaterial } from '../libs/util/util.js'
 
 export class Ball {
   baseSpeed = 2
