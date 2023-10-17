@@ -2,7 +2,7 @@ import * as T from 'three'
 import { ball, totalAxleY } from './config/constants.js'
 
 export class Ball {
-  baseSpeed = 2
+  baseSpeed = ball.initialSpeed
   movementVector = new T.Vector3(0, 1, 0)
   object = new T.Mesh(
     new T.SphereGeometry(ball.radius, 32, 32),
@@ -13,16 +13,25 @@ export class Ball {
   bb = new T.Box3().setFromObject(this.object)
   colliding = false
 
-  constructor(plane) {
+  constructor(plane, controls) {
     this.object.position.y = ball.initialPositionY
     this.object.position.x = ball.initialPositionX
     this.object.castShadow = true
     plane.add(this.object)
+    setInterval(() => {
+      if (controls.isPaused || !controls.isStarted) return
+      if (this.baseSpeed >= ball.maxSpeed) return
+      this.baseSpeed += this.baseSpeed / 15
+      document.getElementById('speed').innerHTML =
+        'Velocidade da bola: ' + this.baseSpeed.toFixed(2)
+    }, 1000)
   }
 
   resetBall(positionX = 0) {
     this.movementVector = new T.Vector3(0, 1, 0)
     this.setPosition(positionX)
+    console.log(ball.initialSpeed)
+    this.baseSpeed = ball.initialSpeed
   }
 
   updateBall(controls) {

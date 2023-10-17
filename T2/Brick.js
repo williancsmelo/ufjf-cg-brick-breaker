@@ -2,9 +2,11 @@ import * as T from 'three'
 
 export class Brick extends T.Mesh {
   broken = false
+  remainingHits = 1
   bb = new T.Box3()
+  points = 100
+  pointsCalculator = controls => this.points
   plane
-  type
   static height = 6
 
   /**
@@ -14,11 +16,8 @@ export class Brick extends T.Mesh {
    *  @param {Number} width Tamanho do tijolo
    *  @param {Number} x Posição do tijolo no eixo X
    *  @param {Number} y Posição do tijolo no eixo Y
-   *  @param {Number} type Tipo do tijolo:
-   *   1. 'normal' : Será quebrado com 1 toque
-   *   2. 'special' : Será quebrado com 2 toques
    */
-  constructor(plane, color, width, x, y, type = 'normal') {
+  constructor(plane, width, x, y, color, points) {
     const boxGeometry = new T.BoxGeometry(width, Brick.height, 10)
     super(
       boxGeometry,
@@ -36,8 +35,7 @@ export class Brick extends T.Mesh {
     )
     plane.add(this)
     this._createCollisionBox()
-    this.plane = plane
-    this.type = type
+    this.points = points
   }
 
   /**
