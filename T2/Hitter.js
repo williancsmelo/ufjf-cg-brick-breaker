@@ -6,11 +6,14 @@ export class Hitter {
   plane;
   stop = false;
   colliding = false;
+  notMove = false;
   bb;
 
-  constructor(plane, color = "red", positionY = -124) {
+  constructor(plane, color = "red", positionY = -124, notMove = false) {
     this.plane = plane;
     this.hitter = this._createPiece(color);
+    this.notMove = notMove;
+
     this.events();
 
     this.plane.add(this.hitter);
@@ -47,6 +50,8 @@ export class Hitter {
   }
 
   events() {
+    if(this.notMove) return;
+
     const onMouseMove = (event) => {
       const screenWidth = this.plane.geometry.parameters.width / 2;
       const totalWidth = window.innerWidth / 2;
