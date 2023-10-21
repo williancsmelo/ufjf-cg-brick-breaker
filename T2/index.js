@@ -29,11 +29,6 @@ function render() {
 
     let newLevel = controls.gameLevel;
     if(controls.finishGame) newLevel = 2; 
-
-
-
-
-    console.log("RESETANDO: ", newLevel)
     restartGame(plane, newLevel)
   }
 
@@ -105,7 +100,6 @@ function restartGame(plane, newLevel) {
 
   
   bricks.length = 0
-  console.log(bricks, " carregar game ", controls.gameLevel)
   bricks = loadLevel(plane, controls.gameLevel)
   score = 0
   updateScore()
