@@ -96,19 +96,29 @@ function restartGame(plane, newLevel) {
   ball.resetBall()
   hitter.setPosition(0)
 
-  bricks.flat().forEach(brick => brick && deleteBrick(brick))
+  const finishClearBricks = new Promise((resolve, reject) => {
+    bricks.flat().forEach((brick, index, array) => {
+      if(brick) deleteBrick(brick)
 
-  
-  bricks.length = 0
-  bricks = loadLevel(plane, controls.gameLevel)
-  score = 0
-  updateScore()
+      if (index === array.length -1) resolve();
+    })
+  });
 
-  controls.setIsPaused(false)
-  controls.setIsStarted(false)
-  controls.setFinishGame(false)
-  controls.setGameLevel(newLevel ?? 1)
-  controls.setRestartGame(false)
+   finishClearBricks.then(() => {
+    bricks.length = 0
+    console.log("ANTES - CRINDO BRICKS DO LEVEL: ", bricks)
+    bricks = loadLevel(plane, controls.gameLevel)
+    console.log("DEPOIS - CRINDO BRICKS DO LEVEL: ", bricks)
+    score = 0
+    updateScore()
+
+    controls.setIsPaused(false)
+    controls.setIsStarted(false)
+    controls.setFinishGame(false)
+    controls.setGameLevel(newLevel ?? 1)
+    controls.setRestartGame(false)
+  });
+
 }
 
 function updateScore() {
