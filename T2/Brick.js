@@ -44,8 +44,7 @@ export class Brick extends T.Mesh {
    *  @param {string} colorRGB  Cor no formato RGB 
   */
   changeColor(colorRGB){
-    console.log(this, this.material)
-    this.material.color = new T.Color(`rgb(${colorRGB})`);
+    this.material.color = new T.Color(`rgb${colorRGB}`);
   }
 
   /**
