@@ -68,7 +68,10 @@ function checkColissionWithBrick() {
     return bricksRow.some(brick => {
       if (!brick?.checkCollisions(ball) || brick.remainingHits < 0) return
       brick.remainingHits -= 1
-      if (brick.remainingHits !== 0) return
+      if (brick.remainingHits !== 0) { 
+        brick.changeColor("(79,79,79)");
+        return
+      }
       deleteBrick(brick)
       score += brick.pointsCalculator(controls)
       updateScore()

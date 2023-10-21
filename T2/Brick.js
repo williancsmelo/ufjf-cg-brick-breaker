@@ -38,6 +38,16 @@ export class Brick extends T.Mesh {
     this.points = points
   }
 
+
+  /**
+   *  Altera cor da parede
+   *  @param {string} colorRGB  Cor no formato RGB 
+  */
+  changeColor(colorRGB){
+    console.log(this, this.material)
+    this.material.color = new T.Color(`rgb(${colorRGB})`);
+  }
+
   /**
    *  Cria a caixa de colisão do tijolo
    */
