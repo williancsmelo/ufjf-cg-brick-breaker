@@ -64,21 +64,31 @@ function deleteBrick(brick) {
 }
 
 function checkColissionWithBrick() {
-  bricks.some(bricksRow => {
-    return bricksRow.some(brick => {
-      if (!brick?.checkCollisions(ball) || brick.remainingHits < 0) return
-      brick.remainingHits -= 1
-      if (brick.remainingHits !== 0) { 
-        brick.changeColor("(79,79,79)");
-        return
+  loop: for(let columnIndex = 0; columnIndex < bricks.length; columnIndex++){
+    const bricksRow = bricks[columnIndex]; // Seleciona todas as linhas de bricks
+
+    for(let rowIndex = 0; rowIndex < bricksRow.length; rowIndex++){ 
+      const brick = bricksRow[rowIndex]; // Seleciona todas as brick da linha
+       
+      // Se a brick colidiu com a bola, destrua ou mude sua cor
+      if (brick?.checkCollisions(ball)) {
+        brick.remainingHits -= 1
+
+        // Se ainda falta hit, altera cor da brick
+        if (brick.remainingHits !== 0) { 
+          brick.changeColor("(79,79,79)");
+          return
+        }
+
+        // Deleta brick e atualiza placar
+        deleteBrick(brick)
+        score += brick.pointsCalculator(controls)
+        updateScore()
+        checkGameFinished()
+        break loop;
       }
-      deleteBrick(brick)
-      score += brick.pointsCalculator(controls)
-      updateScore()
-      checkGameFinished()
-      return true
-    })
-  })
+    }
+  }
 }
 
 function restartGame(plane, newLevel) {
@@ -116,11 +126,11 @@ function checkGameFinished() {
   setTimeout(() => {
     controls.setIsPaused(true)
     document.querySelector('#score').innerHTML =
-      'Jogo finalizado | Pontuação: ' + score
+      `Level finalizado | Pontuação: ` + score
 
     if (gameLevels[controls.gameLevel + 1])
       setTimeout(() => {
-        controls.gameLevel += 1
+        controls.setGameLevel(controls.gameLevel + 1)
         restartGame(plane)
       }, 2000)
   }, 20)
