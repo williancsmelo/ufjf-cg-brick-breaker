@@ -27,7 +27,13 @@ render()
 function render() {
   if (controls.restartGame) {
 
-    const newLevel = controls.finishGame ? 2 : 1
+    let newLevel = controls.gameLevel;
+    if(controls.finishGame) newLevel = 2; 
+
+
+
+
+    console.log("RESETANDO: ", newLevel)
     restartGame(plane, newLevel)
   }
 
@@ -96,7 +102,10 @@ function restartGame(plane, newLevel) {
   hitter.setPosition(0)
 
   bricks.flat().forEach(brick => brick && deleteBrick(brick))
+
+  
   bricks.length = 0
+  console.log(bricks, " carregar game ", controls.gameLevel)
   bricks = loadLevel(plane, controls.gameLevel)
   score = 0
   updateScore()

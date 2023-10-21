@@ -30,7 +30,6 @@ export class Ball {
   resetBall(positionX = 0) {
     this.movementVector = new T.Vector3(0, 1, 0)
     this.setPosition(positionX)
-    console.log(ball.initialSpeed)
     this.baseSpeed = ball.initialSpeed
   }
 

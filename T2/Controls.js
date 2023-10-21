@@ -54,6 +54,12 @@ export class Controls {
       if (key === 'R' || key === 'r') {
         this.restartGame = true
       }
+
+      
+      if (key === 'G' || key === 'g') {
+        this.gameLevel = (this.gameLevel === 1) ? 2 : 1;
+        this.restartGame = true;
+      }
     }
 
     const handleClick = () => {
