@@ -9,6 +9,7 @@ import { createWalls } from './create-walls.js'
 import { createLight } from './create-light.js'
 import { createRenderer } from './create-renderer.js'
 import { PowerUp } from './PowerUp.js'
+import { powerUp as powerUpConfig } from './config/constants.js'
 
 const renderer = createRenderer()
 const scene = new T.Scene()
@@ -111,7 +112,7 @@ function checkColissionWithBrick() {
 }
 
 function checkPowerUp(x, y){
-  if(powerUpCount >= 2){
+  if(powerUpCount >= powerUpConfig.bricksQuantity){
     powerUp = new PowerUp(plane, x, y);
     powerUpCount = 0;
   }
