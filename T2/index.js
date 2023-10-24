@@ -59,8 +59,9 @@ function render() {
 
       if(balls[1]) balls[1].updateBall(controls);
     checkColissionWithBrick()
+
     if(powerUp) {
-      powerUp.update();
+      powerUp.update(controls);
       let verifyCollision = powerUp.checkCollisions(hitter);
 
       if(verifyCollision && balls.length === 1) {
@@ -69,6 +70,7 @@ function render() {
       }
     }
   }
+  
   requestAnimationFrame(render)
 }
 
@@ -114,6 +116,7 @@ function checkColissionWithBrick() {
 function checkPowerUp(x, y){
   if(powerUpCount >= powerUpConfig.bricksQuantity){
     powerUp = new PowerUp(plane, x, y);
+    controls.setPowerUpActive(true)
     powerUpCount = 0;
   }
 }
@@ -147,7 +150,8 @@ function restartGame(plane, newLevel) {
 
 function updateScore() {
   document.querySelector('#score').innerHTML = `Level ${controls.gameLevel} - Pontuação: ${score}`
-  powerUpCount++;
+
+  if(!controls.powerUpActive) powerUpCount++; // Se não tiver nenhum powerup ativo, aumenta a contagem
 }
 
 function checkGameFinished() {
