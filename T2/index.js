@@ -106,9 +106,7 @@ function restartGame(plane, newLevel) {
 
    finishClearBricks.then(() => {
     bricks.length = 0
-    console.log("ANTES - CRINDO BRICKS DO LEVEL: ", bricks)
     bricks = loadLevel(plane, controls.gameLevel)
-    console.log("DEPOIS - CRINDO BRICKS DO LEVEL: ", bricks)
     score = 0
     updateScore()
 
