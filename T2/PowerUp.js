@@ -64,62 +64,61 @@ class PowerUp1 {
 }
 
 export class PowerUp {
-  plane;
-  mesh;
-  bb;
-  
+  plane
+  mesh
+  bb
+
   constructor(plane, posX, posY) {
     this.plane = plane
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    canvas.width = 110 ;
-    canvas.height = 50;
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
+    canvas.width = 110
+    canvas.height = 50
 
-    context.fillStyle = 'yellow'; // Cor do texto
-    context.font = '16px Arial';
-    context.fillText('POWER UP', 10, 30); // Especifique a posição do texto
+    context.fillStyle = 'yellow' // Cor do texto
+    context.font = '16px Arial'
+    context.fillText('POWER UP', 10, 30) // Especifique a posição do texto
 
-    const texture = new T.CanvasTexture(canvas);
+    const texture = new T.CanvasTexture(canvas)
 
-    const geometry = new T.BoxGeometry(20, 5, 1);
-    const material = new T.MeshBasicMaterial({ map: texture });
-    this.mesh = new T.Mesh(geometry, material);
-    console.log(posX)
-    this.mesh.position.set(posX, posY, 0); // Posição inicial do power-up
+    const geometry = new T.BoxGeometry(20, 5, 1)
+    const material = new T.MeshBasicMaterial({ map: texture })
+    this.mesh = new T.Mesh(geometry, material)
+    this.mesh.position.set(posX, posY, 0) // Posição inicial do power-up
 
-    plane.add(this.mesh);
+    plane.add(this.mesh)
   }
 
   update(controls) {
     if (controls.powerUpActive) {
-      this.mesh.position.y -= 0.5; 
+      this.mesh.position.y -= 0.5
 
       if (this.mesh.position.y < -100) {
         this.deletePowerUp(controls)
       }
     }
-}
-  
-  _createCollisionBox(object) {
-    const bb = new T.Box3().setFromObject(object);
+  }
 
-    return bb;
+  _createCollisionBox(object) {
+    const bb = new T.Box3().setFromObject(object)
+
+    return bb
   }
 
   checkCollisions(hitter) {
-    this.bb = this._createCollisionBox(this.mesh);
-    
-    const collision = this.bb.intersectsBox(hitter.bb);
+    this.bb = this._createCollisionBox(this.mesh)
 
-    if(!collision) return;
-    
-    this.plane.remove(this.mesh);
+    const collision = this.bb.intersectsBox(hitter.bb)
 
-    return collision;
+    if (!collision) return
+
+    this.plane.remove(this.mesh)
+
+    return collision
   }
 
-    deletePowerUp(controls){
-      this.plane.remove(this.mesh);
-      controls.setPowerUpActive(false) 
-    }
+  deletePowerUp(controls) {
+    this.plane.remove(this.mesh)
+    controls.setPowerUpActive(false)
   }
+}

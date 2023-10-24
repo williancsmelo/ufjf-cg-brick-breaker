@@ -44,7 +44,6 @@ export class Wall {
     }
 
     if (this.collideDeath) return true
-
     if (this.colliding) return
 
     this.colliding = true
