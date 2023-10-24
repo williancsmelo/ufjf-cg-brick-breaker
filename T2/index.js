@@ -8,6 +8,7 @@ import { createControls } from './create-controls.js'
 import { createWalls } from './create-walls.js'
 import { createLight } from './create-light.js'
 import { createRenderer } from './create-renderer.js'
+import { PowerUp } from './PowerUp.js'
 
 const renderer = createRenderer()
 const scene = new T.Scene()
@@ -18,6 +19,10 @@ const controls = createControls()
 const ball = createBall(plane, controls)
 const hitter = createHitter(plane, ball, controls.isStarted)
 const walls = createWalls(plane)
+
+
+let powerUp = null
+let powerUpCount = 0;
 
 let bricks = loadLevel(plane, 1)
 let score = 0
@@ -50,6 +55,7 @@ function render() {
       ? ball.resetBall(hitter.hitter.position.x)
       : ball.updateBall(controls)
     checkColissionWithBrick()
+    if(powerUp) powerUp.update();
   }
   requestAnimationFrame(render)
 }
@@ -82,13 +88,21 @@ function checkColissionWithBrick() {
         }
 
         // Deleta brick e atualiza placar
+        updateScore()
+        checkPowerUp(brick.position.x, brick.position.y);
         deleteBrick(brick)
         score += brick.pointsCalculator(controls)
-        updateScore()
         checkGameFinished()
         break loop;
       }
     }
+  }
+}
+
+function checkPowerUp(x, y){
+  if(powerUpCount >= 2){
+    powerUp = new PowerUp(plane, x, y);
+    powerUpCount = 0;
   }
 }
 
@@ -121,6 +135,7 @@ function restartGame(plane, newLevel) {
 
 function updateScore() {
   document.querySelector('#score').innerHTML = `Level ${controls.gameLevel} - Pontuação: ${score}`
+  powerUpCount++;
 }
 
 function checkGameFinished() {
