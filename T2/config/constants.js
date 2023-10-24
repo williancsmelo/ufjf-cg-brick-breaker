@@ -18,7 +18,6 @@ export const ball = {
   maxSpeed: 2
 }
 
-
 export const powerUp = {
   bricksQuantity: 10
 }
