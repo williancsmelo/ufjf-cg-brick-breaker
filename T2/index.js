@@ -26,6 +26,7 @@ let powerUpCount = 0;
 
 let bricks = loadLevel(plane, 1)
 let score = 0
+let balls = [ball];
 
 render()
 
@@ -54,8 +55,18 @@ function render() {
     !controls.isStarted
       ? ball.resetBall(hitter.hitter.position.x)
       : ball.updateBall(controls)
+
+      if(balls[1]) balls[1].updateBall(controls);
     checkColissionWithBrick()
-    if(powerUp) powerUp.update();
+    if(powerUp) {
+      powerUp.update();
+      let verifyCollision = powerUp.checkCollisions(hitter);
+
+      if(verifyCollision && balls.length === 1) {
+        let newBall = createBall(plane, controls);
+        balls.push(newBall);
+      }
+    }
   }
   requestAnimationFrame(render)
 }
