@@ -8,9 +8,14 @@ import { Hitter } from './Hitter.js'
 const renderer = createRenderer()
 const scene = new T.Scene()
 const plane = createPlane(scene, 1000, 1000, 'rgb(125, 125, 125)')
-createLight(scene, plane)
-const camera = createCamera(plane, renderer)
+plane.rotateX(-1.5708)
+
+const camera = createCamera(scene, renderer)
 const hitter = new Hitter(plane, 'green', -112, true);
+hitter.hitter.position.z += 10
+hitter.hitter.rotateX(1.5708)
+
+createLight(scene, hitter.hitter, camera)
 import { InfoBox } from "../libs/util/util.js";
 
 
@@ -32,6 +37,9 @@ function render() {
 
     renderer.render(scene, camera) // Render scene
     hitter.updateHitter()
+
+    // directionalLight.position.copy(camera.position);
+    // directionalLight.target.position.copy(hitter.hitter.position)
 
     requestAnimationFrame(render)
 }
