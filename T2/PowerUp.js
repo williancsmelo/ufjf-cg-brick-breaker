@@ -84,7 +84,6 @@ export class PowerUp {
     const geometry = new T.BoxGeometry(20, 5, 1);
     const material = new T.MeshBasicMaterial({ map: texture });
     this.mesh = new T.Mesh(geometry, material);
-    console.log(posX)
     this.mesh.position.set(posX, posY, 0); // Posição inicial do power-up
 
     plane.add(this.mesh);
@@ -120,6 +119,5 @@ export class PowerUp {
 
     deletePowerUp(controls){
       this.plane.remove(this.mesh);
-      controls.setPowerUpActive(false) 
     }
   }

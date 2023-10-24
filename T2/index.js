@@ -42,23 +42,39 @@ function render() {
   if (!controls.isPaused) {
     renderer.render(scene, camera) // Render scene
     hitter.updateHitter()
-    hitter.checkCollisions(ball)
-    // hitter.updateHitter()
-    // hitter.checkCollisions(ball)
-    walls.forEach(wall => {
-      let collideDeath = wall.checkCollisions(ball)
 
-      if (collideDeath) {
-        wall.collideDeath = false
-        controls.setIsStarted(false)
+    let killBallIndex = -1
+
+    balls.forEach((ball, index) => {
+
+      hitter.checkCollisions(ball)
+      // hitter.updateHitter()
+      // hitter.checkCollisions(ball)
+      walls.forEach(wall => {
+        let collideDeath = wall.checkCollisions(ball)
+  
+        if (collideDeath) {
+          wall.collideDeath = false
+          killBallIndex = index
+        }
+      })
+      
+      if(!controls.isStarted){
+        ball.resetBall(hitter.hitter.position.x)
+
+        if(balls.length <= 1) controls.setPowerUpActive(false)
+      }else{
+        ball.updateBall(controls)
       }
+        checkColissionWithBrick(ball)
     })
-    !controls.isStarted
-      ? ball.resetBall(hitter.hitter.position.x)
-      : ball.updateBall(controls)
 
-      if(balls[1]) balls[1].updateBall(controls);
-    checkColissionWithBrick()
+    if(killBallIndex != -1 && balls.length > 1) {
+      deleteBall(balls[killBallIndex])
+      balls.splice(killBallIndex, 1);
+    }
+
+    if(killBallIndex != -1 && balls.length === 1) controls.setIsStarted(false)  
 
     if(powerUp) {
       powerUp.update(controls);
@@ -74,17 +90,28 @@ function render() {
   requestAnimationFrame(render)
 }
 
-function deleteBrick(brick) {
+//Delete ball or brick
+function deleteBall(element) {
   if (controls.isPaused) return
 
-  brick.geometry.dispose()
-  brick.material.dispose()
-  brick.bb = new T.Box3()
-  plane.remove(brick.bb)
-  plane.remove(brick)
+  element.object.geometry.dispose()
+  element.object.material.dispose()
+  element.bb = new T.Box3()
+  plane.remove(element.bb)
+  plane.remove(element.object)
 }
 
-function checkColissionWithBrick() {
+function deleteBrick(element) {
+  if (controls.isPaused) return
+
+  element.geometry.dispose()
+  element.material.dispose()
+  element.bb = new T.Box3()
+  plane.remove(element.bb)
+  plane.remove(element)
+}
+
+function checkColissionWithBrick(ball) {
   loop: for(let columnIndex = 0; columnIndex < bricks.length; columnIndex++){
     const bricksRow = bricks[columnIndex]; // Seleciona todas as linhas de bricks
 

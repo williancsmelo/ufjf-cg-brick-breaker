@@ -20,5 +20,5 @@ export const ball = {
 
 
 export const powerUp = {
-  bricksQuantity: 10
+  bricksQuantity: 2
 }
