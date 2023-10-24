@@ -64,7 +64,6 @@ class PowerUp1 {
 }
 
 export class PowerUp {
-    isActive = true;
     plane;
     mesh;
     
@@ -90,17 +89,18 @@ export class PowerUp {
         plane.add(this.mesh);
     }
 
-    update() {
-        if (this.isActive) {
-          this.mesh.position.y -= 0.5; // Faça o power-up cair.
-    
-          // TODO: Adicione lógica para verificar colisões com a plataforma ou outras interações.
-    
-          // Se o power-up cair para fora da tela, desative-o.
+    update(controls) {
+        if (controls.powerUpActive) {
+          this.mesh.position.y -= 0.5; 
+
           if (this.mesh.position.y < -100) {
-            this.isActive = false;
-            this.plane.remove(this.mesh);
+            this.deletePowerUp(controls)
           }
         }
-      }
+    }
+
+    deletePowerUp(controls){
+      this.plane.remove(this.mesh);
+      controls.setPowerUpActive(false) 
+    }
   }

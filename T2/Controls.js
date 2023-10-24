@@ -5,6 +5,7 @@ export class Controls {
   restartGame = false
   gameLevel = 1
   finishGame = false
+  powerUpActive = false
 
   constructor(isFullscreen) {
     this.isFullscreen = isFullscreen
@@ -33,6 +34,10 @@ export class Controls {
 
   setFinishGame(finish) {
     this.finishGame = finish
+  }
+
+  setPowerUpActive(isActive) {
+    this.powerUpActive = isActive
   }
 
   events() {
