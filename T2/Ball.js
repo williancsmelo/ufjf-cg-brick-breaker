@@ -13,30 +13,23 @@ export class Ball {
   bb = new T.Box3().setFromObject(this.object)
   colliding = false
 
-  constructor(plane, controls) {
+  constructor(plane) {
     this.object.position.y = ball.initialPositionY
     this.object.position.x = ball.initialPositionX
     this.object.castShadow = true
     plane.add(this.object)
-    this.accelerationInterval = setInterval(() => {
-      if (controls.isPaused || !controls.isStarted) return
-      if (this.baseSpeed >= ball.maxSpeed) return
-      this.baseSpeed += ball.initialSpeed / 15
-      document.getElementById('speed').innerHTML =
-        'Velocidade da bola: ' + this.baseSpeed.toFixed(2)
-    }, 1000)
   }
 
   resetBall(positionX = 0) {
     this.movementVector = new T.Vector3(0, 1, 0)
     this.setPosition(positionX)
-    this.baseSpeed = ball.initialSpeed
+    //this.baseSpeed = ball.initialSpeed
     return this
   }
 
-  updateBall(controls) {
-    this.object.position.x += this.movementVector.x * this.baseSpeed
-    this.object.position.y += this.movementVector.y * this.baseSpeed
+  updateBall(controls, baseSpeed) {
+    this.object.position.x += this.movementVector.x * baseSpeed
+    this.object.position.y += this.movementVector.y * baseSpeed
 
     this.bb = new T.Box3().setFromObject(this.object)
 
@@ -69,7 +62,7 @@ export class Ball {
     this.bb = new T.Box3()
     plane.remove(this.bb)
     plane.remove(this.object)
-    clearInterval(this.accelerationInterval)
+    //clearInterval(this.accelerationInterval)
   }
 }
 

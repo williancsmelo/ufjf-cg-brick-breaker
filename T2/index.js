@@ -9,7 +9,7 @@ import { createWalls } from './create-walls.js'
 import { createLight } from './create-light.js'
 import { createRenderer } from './create-renderer.js'
 import { PowerUp } from './PowerUp.js'
-import { powerUp as powerUpConfig } from './config/constants.js'
+import { powerUp as powerUpConfig, ball as ballConfig } from './config/constants.js'
 
 const renderer = createRenderer()
 const scene = new T.Scene()
@@ -20,6 +20,7 @@ const controls = createControls()
 const hitter = createHitter(plane)
 const walls = createWalls(plane)
 let balls = [createBall(plane, controls)]
+let ballSpeed = ballConfig.initialSpeed;
 
 let powerUp = null
 let powerUpCount = 0
@@ -28,6 +29,15 @@ let bricks = loadLevel(plane, 1)
 let score = 0
 
 render()
+
+setInterval(() => {
+  if (controls.isPaused || !controls.isStarted) return
+  if (ballSpeed >= ballConfig.maxSpeed) return
+  ballSpeed += ballConfig.initialSpeed / 15
+  document.getElementById('speed').innerHTML =
+    'Velocidade da bola: ' + ballSpeed.toFixed(2)
+}, 1000)
+
 
 function render() {
   requestAnimationFrame(render)
@@ -48,7 +58,7 @@ function render() {
       const isDead = walls.some(wall => wall.checkCollisions(ball))
       if (isDead) ball.delete(plane)
       else {
-        ball.updateBall(controls)
+        ball.updateBall(controls, ballSpeed)
         checkColissionWithBrick(ball)
       }
       return !isDead
@@ -100,10 +110,10 @@ function checkColissionWithBrick(ball) {
         }
 
         // Deleta brick e atualiza placar
+        score += brick.pointsCalculator(controls)
         updateScore()
         checkPowerUp(brick.position.x, brick.position.y)
         deleteBrick(brick)
-        score += brick.pointsCalculator(controls)
         checkGameFinished()
         break loop
       }
@@ -135,6 +145,9 @@ function restartGame(plane, newLevel) {
   controls.setFinishGame(false)
   controls.setGameLevel(newLevel ?? 1)
   controls.setRestartGame(false)
+  ballSpeed = ballConfig.initialSpeed
+  document.getElementById('speed').innerHTML =
+  'Velocidade da bola: ' + ballSpeed.toFixed(2)
 }
 
 function updateScore() {
