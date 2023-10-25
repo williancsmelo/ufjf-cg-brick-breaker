@@ -40,7 +40,7 @@ export class Hitter {
     csgObject = cylinderCSG.subtract(cubeCSG); // Execute subtraction
 
     let hitter = CSG.toMesh(csgObject, auxMat);
-    hitter.material = new T.MeshPhongMaterial({ color: color });
+    hitter.material = new T.MeshLambertMaterial({ color: color });
 
     return hitter;
   }
