@@ -107,7 +107,10 @@ function checkColissionWithBrick(ball) {
 
         // Se ainda falta hit, altera cor da brick
         if (brick.remainingHits !== 0) {
-          if (isFinite(brick.remainingHits)) brick.changeColor('(79,79,79)')
+          if (isFinite(brick.remainingHits)) {
+            brick.material.map = null
+            brick.material.needsUpdate = true
+          }
           return
         }
 
