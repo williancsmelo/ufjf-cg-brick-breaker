@@ -1,0 +1,18 @@
+.invisible-cursor {
+  cursor: none;
+}
+
+div#header {
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  top: 0;
+  color: yellow;
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  background: none;
+}
+#score {
+  margin-bottom: 5px;
+}
