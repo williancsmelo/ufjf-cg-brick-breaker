@@ -7,9 +7,9 @@ export const createCamera = (scene, renderer) => {
     0.1,
     1000
   )
-  camera.position.set(5, 5, 117)
+  camera.position.set(0, -75, 80)
   camera.up.set(0, 1, 0)
-  camera.lookAt(0, 2, -10)
+  camera.lookAt(0, -27, -20)
   scene.add(camera)
 
   window.addEventListener(
