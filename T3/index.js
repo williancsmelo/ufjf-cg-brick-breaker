@@ -20,7 +20,7 @@ const plane = createPlane(scene)
 createLight(scene, plane)
 const camera = createCamera(plane, renderer)
 const controls = createControls()
-const hitter = createHitter(plane)
+const hitter = createHitter(plane , camera)
 const walls = createWalls(plane)
 let balls = [createBall(plane, controls)]
 let ballSpeed = ballConfig.initialSpeed
@@ -184,3 +184,4 @@ function checkGameFinished() {
       }, 2000)
   }, 20)
 }
+

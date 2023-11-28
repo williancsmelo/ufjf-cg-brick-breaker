@@ -8,8 +8,13 @@ export class Hitter {
   colliding = false;
   notMove = false;
   bb;
+  raycaster;
+  planeRay;
+  camera;
 
-  constructor(plane, color = "red", positionY = -124, notMove = false) {
+  constructor(plane, camera, color = "red", positionY = -124, notMove = false) {
+    this.camera = camera
+    this.raycaster = new T.Raycaster();
     this.plane = plane;
     this.hitter = this._createPiece(color);
     this.notMove = notMove;
@@ -18,6 +23,17 @@ export class Hitter {
 
     this.plane.add(this.hitter);
     this.hitter.position.set(0, -112, 0);
+
+    /* Create Plane to Raycaster*/
+    let planeRay, planeGeometry, planeMaterial;
+    planeGeometry = new T.PlaneGeometry(plane.geometry.parameters.width,plane.geometry.parameters.height,1,1);
+    planeMaterial = new T.MeshLambertMaterial();
+    planeMaterial.side = T.DoubleSide;
+    planeMaterial.transparent = true;
+    planeMaterial.opacity = 0;
+    planeRay = new T.Mesh(planeGeometry, planeMaterial);
+    this.planeRay = planeRay
+    plane.add(planeRay);
   }
 
   _createPiece(color) {
@@ -50,23 +66,30 @@ export class Hitter {
   }
 
   events() {
-    if(this.notMove) return;
-
-    const onMouseMove = (event) => {
-      const screenWidth = this.plane.geometry.parameters.width / 2;
-      const totalWidth = window.innerWidth / 2;
-      const newPosition = event.clientX - totalWidth;
-      if (
-        Math.abs(newPosition) <
-        screenWidth - Math.abs(this.bb.max.x - this.bb.min.x) / 2
-      ) {
-        this.setPosition(newPosition);
-        //if (!isStarted) ball.setPosition(newPosition)
-      }
-    };
-
-    window.addEventListener("mousemove", onMouseMove);
+    if (this.notMove) return;
+    window.addEventListener("mousemove", this.onMouseMove.bind(this));
   }
+
+  onMouseMove(event) {
+    let pointer = new T.Vector2();
+    pointer.x =  (event.clientX / window.innerWidth) * 2 - 1;
+    this.raycaster.setFromCamera(pointer, this.camera);
+    let intersects = this.raycaster.intersectObject(this.planeRay);
+    if (intersects.length > 0) 
+    {
+     const intersect = intersects[0]
+       let point = intersect.point; 
+       const screenWidth = this.plane.geometry.parameters.width / 2;
+       const newPosition = point.x;
+       if (
+         Math.abs(newPosition) <
+         screenWidth - Math.abs(this.bb.max.x - this.bb.min.x) / 2
+       ) {
+         this.setPosition(newPosition);
+       }
+    }
+  };
+ 
 
   updateObject(mesh) {
     mesh.matrixAutoUpdate = false;
