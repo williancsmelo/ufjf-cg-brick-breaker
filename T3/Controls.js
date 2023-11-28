@@ -7,9 +7,10 @@ export class Controls {
   finishGame = false
   powerUpActive = false
 
-  constructor(isFullscreen) {
+  constructor(isFullscreen, toggleOrbitControls) {
     this.isFullscreen = isFullscreen
     this.events()
+    this.toggleOrbitControls = toggleOrbitControls
   }
 
   setIsPaused(isPaused) {
@@ -60,10 +61,14 @@ export class Controls {
         this.restartGame = true
       }
 
-      
       if (key === 'G' || key === 'g') {
-        this.gameLevel = (this.gameLevel === 1) ? 2 : 1;
-        this.restartGame = true;
+        this.gameLevel = this.gameLevel === 1 ? 2 : 1
+        this.restartGame = true
+      }
+
+      if (key === 'o' || key === 'O') {
+        this.isPaused = !this.isPaused
+        this.toggleOrbitControls()
       }
     }
 

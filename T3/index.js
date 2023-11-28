@@ -21,11 +21,12 @@ const scene = new T.Scene()
 createSkybox(scene)
 const plane = createPlane(scene)
 createLight(scene, plane)
-const camera = createCamera(plane, renderer)
+const { camera, controls: orbitControls } = createCamera(plane, renderer)
+
 const listener = new T.AudioListener()
 camera.add(listener)
-const controls = createControls()
-const hitter = createHitter(plane, camera, listener)
+const controls = createControls(orbitControls)
+const hitter = createHitter(plane, camera, listener, controls)
 const walls = createWalls(plane)
 let balls = [createBall(plane, controls)]
 let ballSpeed = ballConfig.initialSpeed
@@ -50,6 +51,7 @@ setInterval(() => {
 }, 1000)
 
 function render() {
+  orbitControls.update()
   requestAnimationFrame(render)
 
   if(remainingLives <= 0){
@@ -64,6 +66,9 @@ function render() {
 
   if (controls.isPaused) return
   renderer.render(scene, camera) // Render scene
+
+  if (controls.restartGame) restartGame(plane, controls.gameLevel)
+  if (controls.isPaused) return
 
   hitter.updateHitter()
 
