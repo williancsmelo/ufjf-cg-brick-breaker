@@ -11,7 +11,8 @@ import { createRenderer } from './create-renderer.js'
 import { PowerUp } from './PowerUp.js'
 import {
   powerUp as powerUpConfig,
-  ball as ballConfig
+  ball as ballConfig,
+  liveQuantity
 } from './config/constants.js'
 import { createSkybox } from './create-skybox.js'
 
@@ -34,6 +35,7 @@ let powerUpCount = 0
 
 let bricks = loadLevel(plane, 1)
 let score = 0
+let remainingLives = liveQuantity;
 
 let [soundNormalBrick, soundReforcedBrick] = setSoundBrick(listener)
 
@@ -49,6 +51,11 @@ setInterval(() => {
 
 function render() {
   requestAnimationFrame(render)
+
+  if(remainingLives <= 0){
+    remainingLives = liveQuantity;
+    controls.setRestartGame(true)
+  }
 
   if (controls.restartGame) {
     // reiniciar jogo ao pressionar R
@@ -71,11 +78,13 @@ function render() {
       }
       return !isDead
     })
+
     if (balls.length === 0) {
       balls = [createBall(plane, controls).resetBall()]
       controls.setIsStarted(false)
+      remainingLives--;
     }
-    if (balls.length === 1 && !isFinite(powerUpCount)) powerUpCount = 0
+    if(balls.length === 1 && !isFinite(powerUpCount)) powerUpCount = 0
   } else {
     balls[0].resetBall(hitter.hitter.position.x)
   }
