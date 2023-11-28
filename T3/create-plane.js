@@ -10,6 +10,8 @@ export const createPlane = (
     new T.PlaneGeometry(width, height),
     new T.MeshLambertMaterial({ color })
   )
+  plane.material.transparent = true
+  plane.material.opacity = 0
   plane.receiveShadow = true
   scene.add(plane)
 

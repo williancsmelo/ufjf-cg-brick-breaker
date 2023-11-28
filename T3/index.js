@@ -13,9 +13,11 @@ import {
   powerUp as powerUpConfig,
   ball as ballConfig
 } from './config/constants.js'
+import { createSkybox } from './create-skybox.js'
 
 const renderer = createRenderer()
 const scene = new T.Scene()
+createSkybox(scene)
 const plane = createPlane(scene)
 createLight(scene, plane)
 const camera = createCamera(plane, renderer)
