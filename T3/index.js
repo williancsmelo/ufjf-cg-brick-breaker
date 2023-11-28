@@ -65,8 +65,11 @@ function render() {
       }
       return !isDead
     })
-    if (balls.length === 0) return restartGame(plane, controls.gameLevel)
-    else if (balls.length === 1 && !isFinite(powerUpCount)) powerUpCount = 0
+    if (balls.length === 0) {
+      balls = [createBall(plane, controls).resetBall()]
+      controls.setIsStarted(false)
+    }
+    if (balls.length === 1 && !isFinite(powerUpCount)) powerUpCount = 0
   } else {
     balls[0].resetBall(hitter.hitter.position.x)
   }
