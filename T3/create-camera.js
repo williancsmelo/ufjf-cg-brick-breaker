@@ -11,7 +11,9 @@ export const createCamera = (scene, renderer) => {
   const controls = new OrbitControls(camera, renderer.domElement)
   controls.maxDistance = 6000
   controls.enabled = false
-  camera.position.set(0, -85, 125)
+  controls.enableZoom = false
+  camera.position.set(0, -75, 80)
+  controls.target.set(0, -27, -20)
   camera.up.set(0, 1, 0)
   scene.add(camera)
 
