@@ -16,3 +16,31 @@ div#header {
 #score {
   margin-bottom: 5px;
 }
+
+
+#loading {
+  position: absolute;
+    left: 50%;
+    bottom: 50%;
+    transform: translateX(-50%);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#loading.active{
+  display: flex;
+}
+
+#loading img {
+  max-width: 100px;
+}
+
+#loading p {
+  font-size: 22px;
+  font-weight: bold;
+  background-color: white;
+  border-radius: 10px;
+  text-align: center;
+}

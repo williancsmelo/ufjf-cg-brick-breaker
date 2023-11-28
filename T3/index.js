@@ -142,17 +142,29 @@ function restartGame(plane, newLevel) {
   powerUpCount = 0
   hitter.setPosition(0)
   bricks.flat().forEach(brick => brick && deleteBrick(brick))
-  bricks = loadLevel(plane, newLevel ?? 1)
-  score = 0
-  updateScore()
-  controls.setIsPaused(false)
-  controls.setIsStarted(false)
-  controls.setFinishGame(false)
-  controls.setGameLevel(newLevel ?? 1)
+
+
+  const loadingEl = document.querySelector("#loading")
+  if(loadingEl) loadingEl.classList.add("active")
+  controls.setIsPaused(true)
   controls.setRestartGame(false)
-  ballSpeed = ballConfig.initialSpeed
-  document.getElementById('speed').innerHTML =
-    'Velocidade da bola: ' + ballSpeed.toFixed(2)
+  
+  setTimeout(() => {
+    bricks = loadLevel(plane, newLevel ?? 1)
+    score = 0
+    updateScore()
+    controls.setIsPaused(false)
+    controls.setIsStarted(false)
+    controls.setFinishGame(false)
+    controls.setGameLevel(newLevel ?? 1)
+    ballSpeed = ballConfig.initialSpeed
+    document.getElementById('speed').innerHTML =
+      'Velocidade da bola: ' + ballSpeed.toFixed(2)
+
+    loadingEl.classList.remove("active")
+    controls.setIsPaused(false)
+
+  }, 1500);
 }
 
 function updateScore() {
