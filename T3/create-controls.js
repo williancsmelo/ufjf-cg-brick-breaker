@@ -1,6 +1,6 @@
 import { Controls } from './Controls.js'
 
-export function createControls() {
+export function createControls(orbitControls) {
   const fullScreenEntries = [
     'fullscreenElement',
     'mozFullScreenElement',
@@ -8,6 +8,9 @@ export function createControls() {
     'msFullscreenElement'
   ]
   const isFullscreen = fullScreenEntries.some(entry => document[entry])
-  const controls = new Controls(isFullscreen)
+  const controls = new Controls(
+    isFullscreen,
+    () => (orbitControls.enabled = !orbitControls.enabled)
+  )
   return controls
 }

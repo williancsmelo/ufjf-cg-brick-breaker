@@ -23,7 +23,8 @@ export class Wall {
       new T.BoxGeometry(100, 200, 3),
       new T.MeshBasicMaterial({ color: 'black' })
     )
-
+    this.object.material.transparent = true
+    this.object.material.opacity = 0
     this.object.position.set(positionX, positionY, 1)
     this._createCollisionBox()
     this.plane = plane

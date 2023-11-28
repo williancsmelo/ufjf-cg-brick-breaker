@@ -1,16 +1,19 @@
 import * as T from 'three'
+
 export const createSkybox = scene => {
-  const loader = new T.CubeTextureLoader().setPath('assets/space-skybox/')
-  loader.load(
-    ['px', 'nx', 'py', 'ny', 'pz', 'nz'].map(side => `${side}.png`),
-    cubeTexture => {
-      const geometry = new T.SphereGeometry(1, 60, 60)
-      const material = new T.MeshBasicMaterial({
-        envMap: cubeTexture
-      })
-      const mesh = new T.Mesh(geometry, material)
-      scene.add(mesh)
-      scene.background = cubeTexture
-    }
+  const directory = 'assets/space-skybox'
+  const createMaterialArray = () => {
+    const filenames = ['ft', 'bk', 'up', 'dn', 'rt', 'lf']
+    return filenames.map(filename => {
+      const texture = new T.TextureLoader().load(`${directory}/${filename}.png`)
+      return new T.MeshBasicMaterial({ map: texture, side: T.BackSide })
+    })
+  }
+
+  const skybox = new T.Mesh(
+    new T.BoxGeometry(10000, 10000, 10000),
+    createMaterialArray()
   )
+  skybox.position.set(0, -75, 80)
+  scene.add(skybox)
 }

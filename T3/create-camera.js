@@ -1,15 +1,18 @@
 import * as T from 'three'
+import { OrbitControls } from '../build/jsm/controls/OrbitControls.js'
 
 export const createCamera = (scene, renderer) => {
   const camera = new T.PerspectiveCamera(
     80,
     window.innerWidth / window.innerHeight,
     0.1,
-    1000
+    30000
   )
-  camera.position.set(0, -75, 80)
+  const controls = new OrbitControls(camera, renderer.domElement)
+  controls.maxDistance = 6000
+  controls.enabled = false
+  camera.position.set(0, -85, 125)
   camera.up.set(0, 1, 0)
-  camera.lookAt(0, -27, -20)
   scene.add(camera)
 
   window.addEventListener(
@@ -22,5 +25,5 @@ export const createCamera = (scene, renderer) => {
     false
   )
 
-  return camera
+  return { camera, controls }
 }
