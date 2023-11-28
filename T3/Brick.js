@@ -18,7 +18,7 @@ export class Brick extends T.Mesh {
    *  @param {Number} y Posição do tijolo no eixo Y
    */
   constructor(plane, width, x, y, color, points) {
-    const boxGeometry = new T.BoxGeometry(width, Brick.height, 10)
+    const boxGeometry = new T.BoxGeometry(width, Brick.height, 8)
     super(
       boxGeometry,
       new T.MeshLambertMaterial({
@@ -38,13 +38,12 @@ export class Brick extends T.Mesh {
     this.points = points
   }
 
-
   /**
    *  Altera cor da parede
-   *  @param {string} colorRGB  Cor no formato RGB 
-  */
-  changeColor(colorRGB){
-    this.material.color = new T.Color(`rgb${colorRGB}`);
+   *  @param {string} colorRGB  Cor no formato RGB
+   */
+  changeColor(colorRGB) {
+    this.material.color = new T.Color(`rgb${colorRGB}`)
   }
 
   /**

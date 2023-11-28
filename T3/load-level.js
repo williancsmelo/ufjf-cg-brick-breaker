@@ -21,7 +21,12 @@ const brickMap = {
   g: {
     color: 'gray',
     effect: brick => {
-      const loader = new T.TextureLoader()
+      const texture = new T.TextureLoader().load(
+        'assets/texture-gray-brick.png'
+      )
+      texture.wrapS = T.RepeatWrapping
+      texture.wrapT = T.RepeatWrapping
+      brick.material.map = texture
       brick.remainingHits = 2
       brick.pointsCalculator = controls => 50 * controls.gameLevel
     }

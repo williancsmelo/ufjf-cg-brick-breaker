@@ -13,16 +13,18 @@ import {
   powerUp as powerUpConfig,
   ball as ballConfig
 } from './config/constants.js'
+import { createSkybox } from './create-skybox.js'
 
 const renderer = createRenderer()
 const scene = new T.Scene()
+createSkybox(scene)
 const plane = createPlane(scene)
 createLight(scene, plane)
 const camera = createCamera(plane, renderer)
-const listener = new T.AudioListener();
-camera.add(listener);
+const listener = new T.AudioListener()
+camera.add(listener)
 const controls = createControls()
-const hitter = createHitter(plane , camera, listener)
+const hitter = createHitter(plane, camera, listener)
 const walls = createWalls(plane)
 let balls = [createBall(plane, controls)]
 let ballSpeed = ballConfig.initialSpeed
@@ -33,7 +35,7 @@ let powerUpCount = 0
 let bricks = loadLevel(plane, 1)
 let score = 0
 
-let [soundNormalBrick, soundReforcedBrick] = setSoundBrick(listener);
+let [soundNormalBrick, soundReforcedBrick] = setSoundBrick(listener)
 
 render()
 
@@ -114,16 +116,19 @@ function checkColissionWithBrick(ball) {
 
         // Se ainda falta hit, altera cor da brick
         if (brick.remainingHits !== 0) {
-          if (isFinite(brick.remainingHits)) brick.changeColor('(79,79,79)')
-          soundReforcedBrick.stop();
-          soundReforcedBrick.play();
+          if (isFinite(brick.remainingHits)) {
+            soundReforcedBrick.stop()
+            soundReforcedBrick.play()
+            brick.material.map = null
+            brick.material.needsUpdate = true
+          }
           return
         }
 
         // Deleta brick e atualiza placar
         score += brick.pointsCalculator(controls)
-        soundNormalBrick.stop();
-        soundNormalBrick.play();
+        soundNormalBrick.stop()
+        soundNormalBrick.play()
         updateScore()
         checkPowerUp(brick.position.x, brick.position.y)
         deleteBrick(brick)
@@ -151,12 +156,11 @@ function restartGame(plane, newLevel) {
   hitter.setPosition(0)
   bricks.flat().forEach(brick => brick && deleteBrick(brick))
 
-
-  const loadingEl = document.querySelector("#loading")
-  if(loadingEl) loadingEl.classList.add("active")
+  const loadingEl = document.querySelector('#loading')
+  if (loadingEl) loadingEl.classList.add('active')
   controls.setIsPaused(true)
   controls.setRestartGame(false)
-  
+
   setTimeout(() => {
     bricks = loadLevel(plane, newLevel ?? 1)
     score = 0
@@ -169,10 +173,9 @@ function restartGame(plane, newLevel) {
     document.getElementById('speed').innerHTML =
       'Velocidade da bola: ' + ballSpeed.toFixed(2)
 
-    loadingEl.classList.remove("active")
+    loadingEl.classList.remove('active')
     controls.setIsPaused(false)
-
-  }, 1500);
+  }, 1500)
 }
 
 function updateScore() {
@@ -209,22 +212,22 @@ function checkGameFinished() {
 }
 
 function setSoundBrick(listener) {
-  const soundNormalBrick = new T.Audio(listener);
-  const soundReforcedBrick = new T.Audio(listener);
-  const audioLoaderNormalBrick = new T.AudioLoader();
-  const audioLoaderReforcedBrick = new T.AudioLoader();
+  const soundNormalBrick = new T.Audio(listener)
+  const soundReforcedBrick = new T.Audio(listener)
+  const audioLoaderNormalBrick = new T.AudioLoader()
+  const audioLoaderReforcedBrick = new T.AudioLoader()
 
-  audioLoaderNormalBrick.load("./assets/bloco1.mp3", (buffer) => {
-      soundNormalBrick.setBuffer(buffer);
-      soundNormalBrick.setLoop(false);
-      soundNormalBrick.setVolume(0.5);
-  });
+  audioLoaderNormalBrick.load('./assets/bloco1.mp3', buffer => {
+    soundNormalBrick.setBuffer(buffer)
+    soundNormalBrick.setLoop(false)
+    soundNormalBrick.setVolume(0.5)
+  })
 
-  audioLoaderReforcedBrick.load("./assets/bloco2.mp3", (buffer) => {
-    soundReforcedBrick.setBuffer(buffer);
-    soundReforcedBrick.setLoop(false);
-    soundReforcedBrick.setVolume(0.5);
-  });
+  audioLoaderReforcedBrick.load('./assets/bloco2.mp3', buffer => {
+    soundReforcedBrick.setBuffer(buffer)
+    soundReforcedBrick.setLoop(false)
+    soundReforcedBrick.setVolume(0.5)
+  })
 
-  return [soundNormalBrick, soundReforcedBrick];
+  return [soundNormalBrick, soundReforcedBrick]
 }
