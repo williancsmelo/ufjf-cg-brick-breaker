@@ -1,6 +1,6 @@
 const plataformDistanceFromBottom = 15 // Distancia da plataforma até a borda de baixo da tela
 const hitterHeight = 3 // Tamanho do plataforma rebatedora (Hitter)
-
+export const liveQuantity = 5;
 export const totalAxleY = window.innerHeight / 2
 
 export const hitter = {
@@ -21,3 +21,5 @@ export const ball = {
 export const powerUp = {
   bricksQuantity: 10
 }
+
+
