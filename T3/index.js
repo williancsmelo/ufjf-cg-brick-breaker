@@ -19,8 +19,10 @@ const scene = new T.Scene()
 const plane = createPlane(scene)
 createLight(scene, plane)
 const camera = createCamera(plane, renderer)
+const listener = new T.AudioListener();
+camera.add(listener);
 const controls = createControls()
-const hitter = createHitter(plane , camera)
+const hitter = createHitter(plane , camera, listener)
 const walls = createWalls(plane)
 let balls = [createBall(plane, controls)]
 let ballSpeed = ballConfig.initialSpeed
@@ -30,6 +32,8 @@ let powerUpCount = 0
 
 let bricks = loadLevel(plane, 1)
 let score = 0
+
+let [soundNormalBrick, soundReforcedBrick] = setSoundBrick(listener);
 
 render()
 
@@ -111,11 +115,15 @@ function checkColissionWithBrick(ball) {
         // Se ainda falta hit, altera cor da brick
         if (brick.remainingHits !== 0) {
           if (isFinite(brick.remainingHits)) brick.changeColor('(79,79,79)')
+          soundReforcedBrick.stop();
+          soundReforcedBrick.play();
           return
         }
 
         // Deleta brick e atualiza placar
         score += brick.pointsCalculator(controls)
+        soundNormalBrick.stop();
+        soundNormalBrick.play();
         updateScore()
         checkPowerUp(brick.position.x, brick.position.y)
         deleteBrick(brick)
@@ -128,7 +136,7 @@ function checkColissionWithBrick(ball) {
 
 function checkPowerUp(x, y) {
   if (powerUpCount >= powerUpConfig.bricksQuantity) {
-    powerUp = new PowerUp(plane, x, y)
+    powerUp = new PowerUp(plane, x, y, listener)
     controls.setPowerUpActive(true)
     powerUpCount = 0
   }
@@ -200,3 +208,23 @@ function checkGameFinished() {
   }, 20)
 }
 
+function setSoundBrick(listener) {
+  const soundNormalBrick = new T.Audio(listener);
+  const soundReforcedBrick = new T.Audio(listener);
+  const audioLoaderNormalBrick = new T.AudioLoader();
+  const audioLoaderReforcedBrick = new T.AudioLoader();
+
+  audioLoaderNormalBrick.load("./assets/bloco1.mp3", (buffer) => {
+      soundNormalBrick.setBuffer(buffer);
+      soundNormalBrick.setLoop(false);
+      soundNormalBrick.setVolume(0.5);
+  });
+
+  audioLoaderReforcedBrick.load("./assets/bloco2.mp3", (buffer) => {
+    soundReforcedBrick.setBuffer(buffer);
+    soundReforcedBrick.setLoop(false);
+    soundReforcedBrick.setVolume(0.5);
+  });
+
+  return [soundNormalBrick, soundReforcedBrick];
+}

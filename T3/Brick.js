@@ -7,7 +7,7 @@ export class Brick extends T.Mesh {
   points = 100
   pointsCalculator = controls => this.points
   plane
-  static height = 6
+  static height = 6;
 
   /**
    *  Cria uma Brick.
