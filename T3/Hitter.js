@@ -11,13 +11,22 @@ export class Hitter {
   raycaster;
   planeRay;
   camera;
+  sound;
 
-  constructor(plane, camera, color = "red", positionY = -124, notMove = false) {
+  constructor(plane, camera, listener, color = "red", positionY = -124, notMove = false) {
     this.camera = camera
     this.raycaster = new T.Raycaster();
     this.plane = plane;
     this.hitter = this._createPiece(color);
     this.notMove = notMove;
+    
+    this.sound = new T.Audio(listener);
+    const audioLoader = new T.AudioLoader();
+    audioLoader.load("./assets/bounce.mp3", (buffer) => {
+        this.sound.setBuffer(buffer);
+        this.sound.setLoop(false);
+        this.sound.setVolume(0.5);
+    });
 
     this.events();
 
@@ -105,6 +114,8 @@ export class Hitter {
     if (this.colliding) return;
     this.colliding = true;
 
+    this.sound.stop();
+    this.sound.play();
     let normalVector = this.calcNormalVector(ball, this.hitter);
 
     ball.collide(normalVector);

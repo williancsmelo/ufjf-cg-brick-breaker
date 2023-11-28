@@ -5,8 +5,9 @@ export class PowerUp {
   plane
   mesh
   bb
+  sound
 
-  constructor(plane, posX, posY) {
+  constructor(plane, posX, posY, listener) {
     this.plane = plane
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
@@ -23,6 +24,14 @@ export class PowerUp {
     const material = new T.MeshBasicMaterial({ map: texture })
     this.mesh = new T.Mesh(geometry, material)
     this.mesh.position.set(posX, posY, 0) // Posição inicial do power-up
+
+    this.sound = new T.Audio(listener);
+    const audioLoader = new T.AudioLoader();
+    audioLoader.load("./assets/bloco3.mp3", (buffer) => {
+        this.sound.setBuffer(buffer);
+        this.sound.setLoop(false);
+        this.sound.setVolume(0.5);
+    });
 
     plane.add(this.mesh)
   }
@@ -51,6 +60,7 @@ export class PowerUp {
     if (!collision) return
 
     this.plane.remove(this.mesh)
+    this.sound.play();
 
     return collision
   }
