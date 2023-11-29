@@ -81,7 +81,7 @@ function render() {
       balls = [createBall(plane, controls).resetBall()]
       controls.setIsStarted(false)
       toggleLivesIcons(false, remainingLives)
-      remainingLives--;
+      remainingLives--
     }
     if (balls.length === 1 && !isFinite(powerUpCount)) powerUpCount = 0
   } else {
@@ -124,9 +124,9 @@ function checkColissionWithBrick(ball) {
 
         // Se ainda falta hit, altera cor da brick
         if (brick.remainingHits !== 0) {
+          soundReforcedBrick.stop()
+          soundReforcedBrick.play()
           if (isFinite(brick.remainingHits)) {
-            soundReforcedBrick.stop()
-            soundReforcedBrick.play()
             brick.material.map = null
             brick.material.needsUpdate = true
           }
@@ -241,16 +241,14 @@ function setSoundBrick(listener) {
   return [soundNormalBrick, soundReforcedBrick]
 }
 
-function toggleLivesIcons(shouldShow, liveId = ""){
+function toggleLivesIcons(shouldShow, liveId = '') {
+  if (shouldShow) {
+    const livesIcons = document.querySelectorAll('#lives img')
 
-  if(shouldShow){
-    const livesIcons = document.querySelectorAll('#lives img');
-
-    livesIcons.forEach((icon) => {
-      icon.classList.remove("hide")
+    livesIcons.forEach(icon => {
+      icon.classList.remove('hide')
     })
-  }else{
-    document.querySelector(`#live-${liveId}`).classList.add("hide")
+  } else {
+    document.querySelector(`#live-${liveId}`).classList.add('hide')
   }
-
 }
