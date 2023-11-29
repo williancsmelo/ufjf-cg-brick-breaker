@@ -84,7 +84,6 @@ export class Hitter {
   }
 
   events() {
-    console.log("Events!")
     new DragControls([this.hitter], this.camera, this.renderer.domElement, this.plane);
 
     window.addEventListener('mousemove', this.onMouseMove.bind(this))
