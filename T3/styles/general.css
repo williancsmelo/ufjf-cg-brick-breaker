@@ -2,7 +2,7 @@
   cursor: none;
 }
 
-div#header {
+#header {
   position: absolute;
   z-index: 100;
   width: 100%;
@@ -44,3 +44,63 @@ div#header {
   border-radius: 10px;
   text-align: center;
 }
+
+#lives {
+  position: absolute;
+  right: 20%;
+  top: 5%;
+  display: flex;
+}
+
+#lives img {
+  max-width: 25px;
+  display: block;
+  margin: 0 2px;
+}
+
+#lives img {
+  max-width: 25px;
+  display: block;
+  margin: 0 2px;
+}
+
+#lives img.hide {
+  display: none;
+}
+
+
+/* MEDIA QUERIES */
+
+@media (max-width: 1200px) {
+  #lives {
+    right: 10%;
+  }
+}
+
+@media (max-width: 680px) {
+  #lives {
+    right: 1%;
+  }
+
+  #header {
+    width: max-content;
+    left: 5%;
+    text-align: left;
+    top: 3%;
+  }
+
+  #header p{
+    margin: 0;
+  }
+}
+
+@media (max-width: 370px) {
+  #lives img{
+    max-width: 18px;
+  }
+
+  #header p{
+    font-size: 16px;
+  }
+}
+

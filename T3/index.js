@@ -87,6 +87,7 @@ function render() {
     if (balls.length === 0) {
       balls = [createBall(plane, controls).resetBall()]
       controls.setIsStarted(false)
+      toggleLivesIcons(false, remainingLives)
       remainingLives--;
     }
     if(balls.length === 1 && !isFinite(powerUpCount)) powerUpCount = 0
@@ -183,6 +184,7 @@ function restartGame(plane, newLevel) {
     controls.setIsStarted(false)
     controls.setFinishGame(false)
     controls.setGameLevel(newLevel ?? 1)
+    toggleLivesIcons(true)
     ballSpeed = ballConfig.initialSpeed
     document.getElementById('speed').innerHTML =
       'Velocidade da bola: ' + ballSpeed.toFixed(2)
@@ -244,4 +246,18 @@ function setSoundBrick(listener) {
   })
 
   return [soundNormalBrick, soundReforcedBrick]
+}
+
+function toggleLivesIcons(shouldShow, liveId = ""){
+
+  if(shouldShow){
+    const livesIcons = document.querySelectorAll('#lives img');
+
+    livesIcons.forEach((icon) => {
+      icon.classList.remove("hide")
+    })
+  }else{
+    document.querySelector(`#live-${liveId}`).classList.add("hide")
+  }
+
 }
