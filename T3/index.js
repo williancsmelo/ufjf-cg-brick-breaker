@@ -36,7 +36,7 @@ let powerUpCount = 0
 
 let bricks = loadLevel(plane, 1)
 let score = 0
-let remainingLives = liveQuantity;
+let remainingLives = liveQuantity
 
 let [soundNormalBrick, soundReforcedBrick] = setSoundBrick(listener)
 
@@ -53,19 +53,16 @@ setInterval(() => {
 function render() {
   orbitControls.update()
   requestAnimationFrame(render)
+  renderer.render(scene, camera) // Render scene
 
-  if(remainingLives <= 0){
-    remainingLives = liveQuantity;
+  if (remainingLives <= 0) {
+    remainingLives = liveQuantity
     controls.setRestartGame(true)
   }
 
-  if (controls.restartGame) {
-    // reiniciar jogo ao pressionar R
-    restartGame(plane, controls.gameLevel)
-  }
+  if (controls.restartGame) restartGame(plane, controls.gameLevel) // reiniciar jogo ao pressionar R
 
   if (controls.isPaused) return
-  renderer.render(scene, camera) // Render scene
 
   if (controls.restartGame) restartGame(plane, controls.gameLevel)
   if (controls.isPaused) return
@@ -90,7 +87,7 @@ function render() {
       toggleLivesIcons(false, remainingLives)
       remainingLives--;
     }
-    if(balls.length === 1 && !isFinite(powerUpCount)) powerUpCount = 0
+    if (balls.length === 1 && !isFinite(powerUpCount)) powerUpCount = 0
   } else {
     balls[0].resetBall(hitter.hitter.position.x)
   }
