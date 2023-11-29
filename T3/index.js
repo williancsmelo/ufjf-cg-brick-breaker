@@ -26,7 +26,7 @@ const { camera, controls: orbitControls } = createCamera(plane, renderer)
 const listener = new T.AudioListener()
 camera.add(listener)
 const controls = createControls(orbitControls)
-const hitter = createHitter(plane, camera, listener, controls)
+const hitter = createHitter(plane, camera, renderer, listener, controls)
 const walls = createWalls(plane)
 let balls = [createBall(plane, controls)]
 let ballSpeed = ballConfig.initialSpeed

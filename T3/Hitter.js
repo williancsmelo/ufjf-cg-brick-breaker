@@ -1,6 +1,7 @@
 import * as T from 'three'
 import { CSG } from '../libs/other/CSGMesh.js'
 import { hitter as hitterConfigs } from './config/constants.js'
+import {DragControls} from "./helpers/DragControls.js"
 
 export class Hitter {
   static hitter
@@ -13,8 +14,10 @@ export class Hitter {
   planeRay
   camera
   sound
+  renderer
 
-  constructor(plane, camera, listener, controls) {
+  constructor(plane, camera,renderer, listener, controls) {
+    this.renderer = renderer
     this.camera = camera
     this.raycaster = new T.Raycaster()
     this.plane = plane
@@ -81,6 +84,8 @@ export class Hitter {
   }
 
   events() {
+    new DragControls([this.hitter], this.camera, this.renderer.domElement, this.plane);
+
     window.addEventListener('mousemove', this.onMouseMove.bind(this))
   }
 
