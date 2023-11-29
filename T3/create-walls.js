@@ -3,10 +3,10 @@ import { Wall } from './Wall.js'
 
 export const createWalls = plane => {
   return [
-    { x: -100, vector: [1, 0] }, // left
-    { x: 100, vector: [-1, 0] }, // right
-    { y: 200, vector: [0, -1] }, // top
-    { y: -200, vector: [0, 1], kill: true } // bottom
+    { x: -50, vector: [1, 0] }, // left
+    { x: 50, vector: [-1, 0] }, // right
+    { y: 100, vector: [0, -1] }, // top
+    { y: -100, vector: [0, 1], kill: true } // bottom
   ].map(
     wall =>
       new Wall(

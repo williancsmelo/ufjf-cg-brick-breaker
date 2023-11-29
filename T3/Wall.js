@@ -1,6 +1,7 @@
 import * as T from 'three'
 
 export class Wall {
+  static width = 5
   broken = false
   plane
   colliding = false
@@ -19,12 +20,23 @@ export class Wall {
    *  @param {Boolean} collideDeath Define se deve matar a bola ao tocar na parede
    */
   constructor(plane, positionX, positionY, normal, collideDeath = false) {
+    const sizes = {
+      width: 100,
+      height: 200
+    }
+    if (positionX) {
+      sizes.width = Wall.width
+      sizes.height += Wall.width
+      positionX += (Wall.width / 2) * Math.sign(positionX)
+    } else {
+      sizes.height = Wall.width
+      sizes.width += Wall.width
+      positionY += (Wall.width / 2) * Math.sign(positionX)
+    }
     this.object = new T.Mesh(
-      new T.BoxGeometry(100, 200, 3),
-      new T.MeshBasicMaterial({ color: 'black' })
+      new T.BoxGeometry(sizes.width, sizes.height, 3),
+      new T.MeshBasicMaterial({ color: 'brown' })
     )
-    this.object.material.transparent = true
-    this.object.material.opacity = 0
     this.object.position.set(positionX, positionY, 1)
     this._createCollisionBox()
     this.plane = plane

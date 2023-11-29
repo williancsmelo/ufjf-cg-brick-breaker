@@ -7,7 +7,7 @@ export class Brick extends T.Mesh {
   points = 100
   pointsCalculator = controls => this.points
   plane
-  static height = 6;
+  static height = 6
 
   /**
    *  Cria uma Brick.
@@ -18,7 +18,7 @@ export class Brick extends T.Mesh {
    *  @param {Number} y Posição do tijolo no eixo Y
    */
   constructor(plane, width, x, y, color, points) {
-    const boxGeometry = new T.BoxGeometry(width, Brick.height, 8)
+    const boxGeometry = new T.BoxGeometry(width, Brick.height, 6)
     super(
       boxGeometry,
       new T.MeshLambertMaterial({
