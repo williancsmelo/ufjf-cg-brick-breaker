@@ -61,10 +61,6 @@ function render() {
   }
 
   if (controls.restartGame) restartGame(plane, controls.gameLevel) // reiniciar jogo ao pressionar R
-
-  if (controls.isPaused) return
-
-  if (controls.restartGame) restartGame(plane, controls.gameLevel)
   if (controls.isPaused) return
 
   hitter.updateHitter()
