@@ -1,3 +1,5 @@
+import { gameLevels } from './load-level.js'
+
 export class Controls {
   isPaused = false
   isFullscreen = false
@@ -62,7 +64,8 @@ export class Controls {
       }
 
       if (key === 'G' || key === 'g') {
-        this.gameLevel = this.gameLevel === 1 ? 2 : 1
+        this.gameLevel++
+        if (!gameLevels[this.gameLevel]) this.gameLevel = 1
         this.restartGame = true
       }
 

@@ -5,7 +5,7 @@ import level2 from './levels/2.js'
 import level3 from './levels/3.js'
 
 export const gameLevels = {
-  1: level3,
+  1: level1,
   2: level2,
   3: level3
 }
