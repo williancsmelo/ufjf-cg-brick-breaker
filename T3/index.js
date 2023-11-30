@@ -9,11 +9,7 @@ import { createWalls } from './create-walls.js'
 import { createLight } from './create-light.js'
 import { createRenderer } from './create-renderer.js'
 import { PowerUp } from './PowerUp.js'
-import {
-  powerUp as powerUpConfig,
-  ball as ballConfig,
-  liveQuantity
-} from './config/constants.js'
+import { powerUp as powerUpConfig, liveQuantity } from './config/constants.js'
 import { createSkybox } from './create-skybox.js'
 
 const renderer = createRenderer()
@@ -29,7 +25,6 @@ const controls = createControls(orbitControls)
 const hitter = createHitter(plane, camera, renderer, listener, controls)
 const walls = createWalls(plane)
 let balls = [createBall(plane, controls)]
-let ballSpeed = ballConfig.initialSpeed
 
 let powerUp = null
 let powerUpCount = 0
@@ -41,14 +36,6 @@ let remainingLives = liveQuantity
 let [soundNormalBrick, soundReforcedBrick] = setSoundBrick(listener)
 
 render()
-
-setInterval(() => {
-  if (controls.isPaused || !controls.isStarted) return
-  if (ballSpeed >= ballConfig.maxSpeed) return
-  ballSpeed += ballConfig.initialSpeed / 15
-  document.getElementById('speed').innerHTML =
-    'Velocidade da bola: ' + ballSpeed.toFixed(2)
-}, 1000)
 
 function render() {
   orbitControls.update()
@@ -69,9 +56,10 @@ function render() {
     balls = balls.filter(ball => {
       hitter.checkCollisions(ball)
       const isDead = walls.some(wall => wall.checkCollisions(ball))
-      if (isDead) ball.delete(plane)
-      else {
-        ball.updateBall(controls, ballSpeed)
+      if (isDead) {
+        ball.delete(plane)
+      } else {
+        ball.updateBall(controls)
         checkColissionWithBrick(ball)
       }
       return !isDead
@@ -87,6 +75,7 @@ function render() {
   } else {
     balls[0].resetBall(hitter.hitter.position.x)
   }
+  updateBallSpeed()
 
   if (powerUp) {
     powerUp.update(controls)
@@ -178,9 +167,7 @@ function restartGame(plane, newLevel) {
     controls.setFinishGame(false)
     controls.setGameLevel(newLevel ?? 1)
     toggleLivesIcons(true)
-    ballSpeed = ballConfig.initialSpeed
-    document.getElementById('speed').innerHTML =
-      'Velocidade da bola: ' + ballSpeed.toFixed(2)
+    updateBallSpeed()
 
     loadingEl.classList.remove('active')
     controls.setIsPaused(false)
@@ -251,4 +238,14 @@ function toggleLivesIcons(shouldShow, liveId = '') {
   } else {
     document.querySelector(`#live-${liveId}`).classList.add('hide')
   }
+}
+
+function updateBallSpeed() {
+  let description = `Velocidade da bola: ${balls[0].speed.toFixed(2)}`
+  if (balls.length > 1)
+    description = balls.reduce(
+      (acc, ball, index) => `${acc} ${index + 1})${ball.speed.toFixed(2)}`,
+      'Velocidades das bolas:'
+    )
+  document.getElementById('speed').innerHTML = description
 }

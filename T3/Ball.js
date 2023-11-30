@@ -2,37 +2,47 @@ import * as T from 'three'
 import { ball, totalAxleY } from './config/constants.js'
 
 export class Ball {
-  baseSpeed = ball.initialSpeed
   movementVector = new T.Vector3(0, 1, 0)
-  object = new T.Mesh(
-    new T.SphereGeometry(ball.radius, 32, 32),
-    new T.MeshPhongMaterial({
-      color: 'red'
-    })
-  )
-  bb = new T.Box3().setFromObject(this.object)
+  object
+  bb = new T.Box3()
   colliding = false
+  speed = ball.initialSpeed
+  #accelerationInterval = null
 
-  constructor(plane) {
+  constructor(plane, controls) {
+    this.object = new T.Mesh(
+      new T.SphereGeometry(ball.radius, 32, 32),
+      new T.MeshPhongMaterial({
+        color: 'red'
+      })
+    )
     this.object.position.y = ball.initialPositionY
     this.object.position.x = ball.initialPositionX
+    this.updateHitBox()
     this.object.castShadow = true
+    this.#accelerationInterval = setInterval(() => {
+      if (controls.isPaused || !controls.isStarted) return
+      if (this.speed >= ball.maxSpeed) return
+      this.speed += ball.initialSpeed / 15
+    }, 1000)
     plane.add(this.object)
   }
 
   resetBall(positionX = 0) {
     this.movementVector = new T.Vector3(0, 1, 0)
     this.setPosition(positionX)
-    //this.baseSpeed = ball.initialSpeed
+    this.speed = ball.initialSpeed
     return this
   }
 
-  updateBall(controls, baseSpeed) {
-    this.object.position.x += this.movementVector.x * baseSpeed
-    this.object.position.y += this.movementVector.y * baseSpeed
+  updateHitBox() {
+    this.bb.setFromObject(this.object)
+  }
 
-    this.bb = new T.Box3().setFromObject(this.object)
-
+  updateBall(controls) {
+    this.object.position.x += this.movementVector.x * this.speed
+    this.object.position.y += this.movementVector.y * this.speed
+    this.updateHitBox()
     if (this.object.position.y * -1 > totalAxleY) {
       controls.setIsStarted(false)
     }
@@ -41,6 +51,7 @@ export class Ball {
   setPosition(x = ball.initialPositionX, y = ball.initialPositionY) {
     this.object.position.x = x
     this.object.position.y = y
+    this.updateHitBox()
   }
 
   collide(normalVector) {
@@ -57,12 +68,12 @@ export class Ball {
   }
 
   delete(plane) {
+    clearInterval(this.#accelerationInterval)
     this.object.geometry.dispose()
     this.object.material.dispose()
-    this.bb = new T.Box3()
+    this.bb = null
     plane.remove(this.bb)
     plane.remove(this.object)
-    //clearInterval(this.accelerationInterval)
   }
 }
 
